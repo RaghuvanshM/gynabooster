@@ -18,11 +18,10 @@ export default class SplashScreen extends Component {
     render() {
 
         return (
-            <LinearGradient start={{ x: 0.0, y: 0.1 }} end={{ x: 0.3, y: 1.0 }} colors={['#fe7223', '#4A569D', '#192f6a']} style={styles.linearGradient}>
+            <LinearGradient start={{ x: 0.0, y: 0.1 }} end={{ x: 0.3, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={styles.linearGradient}>
                 <View style={styles.header}>
                     <Animatable.Image
                         animation="fadeInDown"
-
                         source={require('../assets/gyan.png')}
                         style={styles.logo}
                         resizeMode="stretch"
@@ -35,7 +34,7 @@ export default class SplashScreen extends Component {
                     <Text style={styles.loginMainHeading}>Are your Teacher</Text>
                     <Text style={styles.loginSubHeading}>or Student ?</Text>
                     </View>
-                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#fe7223', '#4A569D', '#192f6a']} style={{ height: hp('6%'), width: wp('70%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
+                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: hp('6%'), width: wp('70%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
                         <TouchableOpacity
                             onPress={() => { this.props.navigation.navigate('TeacherLogin') }}
                         >
@@ -44,9 +43,9 @@ export default class SplashScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </LinearGradient>
-                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#fe7223', '#4A569D', '#192f6a']} style={{ height: hp('6%'), width: wp('70%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
+                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: hp('6%'), width: wp('70%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
                         <TouchableOpacity
-                            onPress={() => { this.props.navigation.navigate('SignUp') }}
+                            onPress={() => { this.props.navigation.navigate('StudentLogin') }}
                         >
                             <Text style={styles.buttonText}>
                                 Student

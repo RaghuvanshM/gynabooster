@@ -8,7 +8,7 @@ export default class MyComponent extends Component{
   componentDidMount(){
     let {navigation} = this.props
     setTimeout(() => {
-      navigation.navigate('Login')
+      navigation.navigate('Confirmation')
     }, 3000);
   }
   UNSAFE_componentWillMount(){
