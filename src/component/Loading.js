@@ -17,7 +17,7 @@ export default class MyComponent extends Component{
 render(){
   return (
     <LottieView 
-    style={{height:'80%'}} source={require('../assets/reading.json')} 
+    style={{alignItems:'center'}} source={require('../assets/reading.json')} 
     autoPlay loop />
    
   );

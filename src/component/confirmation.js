@@ -110,10 +110,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     buttonText: {
-        fontSize: hp('3%'),
         fontFamily: 'Gill Sans',
         textAlign: 'center',
-        margin: 10,
+        margin:7,
+        fontSize:hp('3%'),
         color: '#ffffff',
         backgroundColor: 'transparent',
     },

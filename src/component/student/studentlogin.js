@@ -140,7 +140,7 @@ class StudentLogin extends Component {
                             >
                                 {!isApihit ? <Text style={styles.buttonText}>
                                     Login
-                            </Text> : <View style={{ alignSelf: "center", marginTop: hp('.2%') }} ><ActivityIndicator size="large" color="white" /></View>}
+                            </Text> : <View style={{ alignSelf: "center", marginTop: hp('1%') }} ><ActivityIndicator size="large" color="white" /></View>}
                             </TouchableOpacity>
                         </LinearGradient>
                         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: hp('2%') }}>
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
         fontSize: hp('3%'),
         fontFamily: 'Gill Sans',
         textAlign: 'center',
-        margin: 5,
+        margin: 10,
         color: '#ffffff',
         backgroundColor: 'transparent',
     },

@@ -1,58 +1,61 @@
 import React, {Component} from 'react';
 import {
-  View,
   Text,
+  View,
   TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-  StatusBar,
-  Image,
   Pressable,
+  StyleSheet,
+  ScrollView,
   ActivityIndicator,
-  Alert,
-  Modal,
+  Modal
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import {TextInput} from 'react-native-paper';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {TextInput,Card} from 'react-native-paper';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import FastImage from 'react-native-fast-image';
+import TopBarNavigationComponent from './Dashboard/TopBarnavigation/TeacherTopbarnavigation';
+import {showMessage, hideMessage} from 'react-native-flash-message';
+import {
+  NavigationContainer,
+  DarkTheme,
+  DefaultTheme,
+} from '@react-navigation/native';
 import {
   faArrowLeft,
   faCoffee,
+  faPen,
   faPenSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ScrollView, TapGestureHandler} from 'react-native-gesture-handler';
-import {showMessage, hideMessage} from 'react-native-flash-message';
-import DropDownPicker from 'react-native-dropdown-picker';
-import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
-import {color} from 'react-native-reanimated';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {studentdashboarddata} from '../../redux/action/studentdata';
-import RNFetchBlob from 'rn-fetch-blob';
 import {connect} from 'react-redux';
+import { Teacherdashboarddata } from '../../redux/action/TeacherData';
+import RNFetchBlob from 'rn-fetch-blob';
 import ImagePicker from 'react-native-image-picker';
-import FastImage from 'react-native-fast-image';
+
+const Tab = createMaterialTopTabNavigator();
 const options = {
   title: 'Profile Picture',
   takePhotoButtonTitle: 'Take photo with your camera',
   chooseFromLibraryButtonTitle: 'Choose photo from library',
 };
-class StudentUpdateScreen extends Component {
-  constructor(props) {
-    super(props);
+class TeacherProfileUpdate extends Component {
+  constructor() {
+    super();
+    // let {name,email,mobile,age,address} = this.props.Teacheralldata;
     this.state = {
       showpassword: true,
       showcpassword: true,
       logoNewStyle: false,
-      name: '',
+      Name: '',
       email: '',
       mobile: '',
       isapihit: false,
-      age: '',
+      Age: '',
       address: '',
       event_name: '',
       country: '',
@@ -64,48 +67,38 @@ class StudentUpdateScreen extends Component {
       gender: 'gender',
       isProfileImageModal: false,
     };
-
-    // binding all the funtion
-    this.StudentProfileUpdate = this.StudentProfileUpdate.bind(this);
   }
-  StudentProfileUpdate = () => {
+  componentDidMount() {
+    this.Teacherupdatedata();
+  }
+  TeacherProfileUpdate = () => {
     this.setState({isapihit: true});
     let {
-      name,
-      email,
-      password,
-      cpassword,
       mobile,
       landmark,
-      aboutinstitute,
       pin_code,
       age,
       address,
-      event_name,
       country,
+      city,
       state,
       gender,
     } = this.state;
     const url =
-      'https://gyanbooster.jingleinfo.com/mobileapp/user/student_update';
-    AsyncStorage.getItem('Loginid').then((token) => {
+      'https://gyanbooster.jingleinfo.com/mobileapp/user/teacher_update';
+    AsyncStorage.getItem('Techerloginid').then((token) => {
       let id = parseInt(token);
       let data = {
         id: id,
-        name: name,
-        email: email,
-        password: password,
-        cnfpassword: cpassword,
         phone: mobile,
-        aboutinstitute: aboutinstitute,
         landmark: landmark,
-        pin_code: pin_code,
+        pincode: pin_code,
         age: age,
         address: address,
-        event_name: event_name,
         country: country,
         state: state,
         gender: gender,
+        city:city
       };
       fetch(url, {
         method: 'POST',
@@ -126,7 +119,7 @@ class StudentUpdateScreen extends Component {
               message: res2.message,
               type: 'success',
             });
-            this.props.fetchallData(id);
+            this.props.fetchallTeacherData(id);
           } else {
             this.setState({isapihit: false});
             showMessage({
@@ -137,21 +130,8 @@ class StudentUpdateScreen extends Component {
         });
     });
   };
-  validateName = (name) => {
-    var regex = /^[a-zA-Z ]{2,30}$/;
-    if (!regex.test(name)) {
-      showMessage({
-        message: 'Number and special character  is not allowed',
-        type: 'single line',
-      });
-    }
-  };
-  componentDidMount() {
-    this.studentupdatedata();
-  }
-  studentupdatedata = () => {
+  Teacherupdatedata = () => {
     let {
-      aboutinstitute,
       address,
       age,
       city,
@@ -161,11 +141,10 @@ class StudentUpdateScreen extends Component {
       landmark,
       name,
       phone,
-      pin_code,
+      pincode,
       state,
-    } = this.props.studentalldata;
+    } = this.props.Teacheralldata;
     this.setState({
-      aboutinstitute: aboutinstitute,
       address: address,
       age: age,
       city: city,
@@ -175,12 +154,12 @@ class StudentUpdateScreen extends Component {
       landmark: landmark,
       name: name,
       phone: phone,
-      pin_code: pin_code,
+      pin_code: pincode,
       state: state,
     });
   };
   updateProfilePic = () => {
-    AsyncStorage.getItem('Loginid').then((token) => {
+    AsyncStorage.getItem('Techerloginid').then((token) => {
       let id = parseInt(token);
       ImagePicker.showImagePicker(options, (response) => {
         if (response.didCancel) {
@@ -193,10 +172,10 @@ class StudentUpdateScreen extends Component {
           let source = {uri: response.uri};
           this.setState({isProfileImageModal: true});
 
-          AsyncStorage.getItem('Loginid').then((token) => {
+          AsyncStorage.getItem('Techerloginid').then((token) => {
             RNFetchBlob.fetch(
               'POST',
-              'https://gyanbooster.jingleinfo.com/mobileapp/user/student_pic',
+              'https://gyanbooster.jingleinfo.com/mobileapp/user/teacher_pic',
               {
                 Authorization: 'Bearer access-token',
                 otherHeader: 'foo',
@@ -210,10 +189,10 @@ class StudentUpdateScreen extends Component {
                   type: 'image/png',
                   data: response.data,
                 },
-                {name: 'id', data: token.toString()},
+                {name: 'teacher_registration_id', data: token.toString()},
               ],
             ).then((resp) => {
-              this.props.fetchallData(id);
+              this.props.fetchallTeacherData(id);
 
               showMessage({
                 message: 'Profile picture successfully updated',
@@ -226,7 +205,29 @@ class StudentUpdateScreen extends Component {
       });
     });
   };
+  TeacherInformation =()=>{
+    AsyncStorage.getItem('Techerloginid').then((token) => {
+      let data ={
+        teacher_registration_id:parseInt(token)
+      }
+      const url ='https://gyanbooster.jingleinfo.com/mobileapp/user/teacher_insert';
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'prabhat@123',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((res2) => {
+        })
+    this.props.navigation.navigate('Teacherinformation')
+    })
+  }
   render() {
+    let {appdarkmode} = this.props;
     let {
       name,
       phone,
@@ -242,31 +243,20 @@ class StudentUpdateScreen extends Component {
       aboutinstitute,
       isapihit,
       isProfileImageModal,
-    } = this.state;
-    let {img} = this.props.studentalldata;
-    const url =
-      'http://gyanbooster.jingleinfo.com/mobileapp/upload/studentprofile/' +
-      img;
-    const eye = (
-      <TextInput.Icon
-        name="arrow-down-drop-circle-outline"
-        size={25}
-        color={'#C22D0D'}
-        onPress={() => {
-          this.setState({showpassword: !showpassword});
-        }}
-      />
-    );
+    } =this.state;
     return (
       <View style={{flex: 1}}>
         <ScrollView>
-          <LinearGradient
-            colors={['#aa4b6b', '#6b6b83', '#3b8d99']}
-            style={{height: hp('30%'), width: wp('100%')}}>
+        <LinearGradient
+          colors={
+            appdarkmode ? ['black', 'grey'] : ['#aa4b6b', '#6b6b83', '#3b8d99']
+          }
+          style={{height: hp('30%')}}>
+          <View>
             <View style={{flexDirection: 'row', margin: hp('2%')}}>
               <TouchableOpacity
                 onPress={() => {
-                  this.props.navigation.navigate('bottomTab');
+                  this.props.navigation.navigate('TeacherbottomTab');
                 }}>
                 <View>
                   <FontAwesomeIcon
@@ -276,6 +266,7 @@ class StudentUpdateScreen extends Component {
                   />
                 </View>
               </TouchableOpacity>
+              
               <View>
                 <Text
                   style={{
@@ -286,44 +277,59 @@ class StudentUpdateScreen extends Component {
                   Update Profile
                 </Text>
               </View>
+              <View>
+                <Text
+                  style={{
+                    color: 'white',
+                    marginLeft: hp('15%'),
+                    fontSize: hp('2%'),
+                  }}>
+                 Information
+                </Text>
+              </View>
+              <View>
+              <TouchableOpacity
+                onPress={() => {
+                  this.TeacherInformation()
+                }}>
+                <View>
+                  <FontAwesomeIcon
+                    icon={faPen}
+                    color="white"
+                    size={hp('3%')}
+                    style={{marginLeft:hp('3%')}}
+                  />
+                </View>
+              </TouchableOpacity>
+              </View>
             </View>
             <View style={{alignSelf: 'center'}}>
               <Pressable
                 onPress={() => {
                   this.updateProfilePic();
                 }}>
-                <FastImage source={{uri: url}} style={styles.logo} />
+                <FastImage
+                  source={require('../../assets/dummy.jpeg')}
+                  style={styles.logo}
+                />
               </Pressable>
-              <Text style={{color: 'white'}}>
+              <Text style={{color: 'white', marginTop: hp('2%')}}>
                 Tap the image to change Profile Picture
               </Text>
             </View>
-          </LinearGradient>
-          <View style={{alignSelf: 'center'}}>
+          </View>
+        </LinearGradient>
+        <View style={{alignSelf:'center'}}>
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%'),color:'white'}}
-              label="Name"
-              value={name}
-              placeholderTextColor='white'
-              onFocus={() => this.setState({logoNewStyle: true})}
-              onEndEditing={() => {
-                this.validateName(name);
-              }}
-              onChangeText={(text) => this.setState({name: text})}
-            />
-            <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Name"
               value={name}
               onFocus={() => this.setState({logoNewStyle: true})}
-              onEndEditing={() => {
-                this.validateName(name);
-              }}
               disabled={true}
-              onChangeText={(text) => this.setState({name: text})}
+              onChangeText={(text) => this.setState({Name: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Mobile"
               value={phone}
               keyboardType="number-pad"
@@ -332,94 +338,58 @@ class StudentUpdateScreen extends Component {
               onChangeText={(text) => this.setState({mobile: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Email"
               value={email}
               disabled={true}
               keyboardType="email-address"
               onChangeText={(text) => this.setState({email: text})}
             />
-            {/* <View style={{ width: wp('80%'), marginTop: hp('2%') }}>
-                            <DropDownPicker
-                                items={[
-                                    { label: 'Select Gender', value: 'gender' },
-                                    { label: 'MALE', value: 'm' },
-                                    { label: 'FEMALE', value: 'f' },
-                                ]}
-                                defaultValue={this.state.gender}
-                                containerStyle={{ height: hp('6%') }}
-                                style={{ backgroundColor: '#fafafa' }}
-                                itemStyle={{
-                                    justifyContent: 'flex-start',
-                                    color: 'grey'
-                                }}
-                                labelStyle={{ color: 'grey' }}
-                                dropDownStyle={{ backgroundColor: '#fafafa' }}
-                                onChangeItem={item => this.setState({
-                                    gender: item.value
-                                })}
-                            />
-                        </View> */}
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Age"
               value={age}
-              mode="outlined"
               onChangeText={(text) => this.setState({age: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Addrees"
               value={address}
               onChangeText={(text) => this.setState({address: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
-              label="Event Name"
-              onChangeText={(text) => this.setState({event_name: text})}
-            />
-            <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Country"
               value={country}
               onChangeText={(text) => this.setState({country: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="State"
               value={state}
-              mode="outlined"
               onChangeText={(text) => this.setState({state: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="City"
               value={city}
               onChangeText={(text) => this.setState({city: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Land-Mark"
               value={landmark}
               onChangeText={(text) => this.setState({landmark: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('95%'), marginTop: hp('2%')}}
               label="Pind Code"
               value={pin_code}
               onChangeText={(text) => this.setState({pin_code: text})}
             />
-            <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
-              label="About Institute"
-              value={aboutinstitute}
-              onChangeText={(text) => this.setState({aboutinstitute: text})}
-            />
+            <Text style={{marginBottom:hp('3%')}}></Text>
           </View>
-
-          <Text style={{marginBottom: hp('3%')}}></Text>
         </ScrollView>
-
         <Modal
           animationType="slide"
           transparent={true}
@@ -450,7 +420,9 @@ class StudentUpdateScreen extends Component {
           <LinearGradient
             start={{x: 0.1, y: 0.1}}
             end={{x: 0.7, y: 1.0}}
-            colors={['#aa4b6b', '#6b6b83', '#3b8d99']}
+            colors={
+              appdarkmode ? ['grey', 'black'] : ['#aa4b6b', '#6b6b83', '#3b8d99']
+            }
             style={{
               height: hp('7%'),
               width: wp('80%'),
@@ -458,7 +430,7 @@ class StudentUpdateScreen extends Component {
               borderRadius: hp('4%'),
               alignSelf: 'center',
             }}>
-            <TouchableOpacity onPress={this.StudentProfileUpdate}>
+            <TouchableOpacity onPress={()=>{this.TeacherProfileUpdate()}}>
               {!isapihit ? (
                 <Text style={styles.buttonText}>Save</Text>
               ) : (
@@ -474,82 +446,30 @@ class StudentUpdateScreen extends Component {
             </TouchableOpacity>
           </LinearGradient>
         </Card>
+      
       </View>
     );
   }
 }
 function mapStateToProps(state) {
   return {
-    studentalldata: state.studentData,
+    Teacheralldata: state.Teacherdashboarddata,
+    appdarkmode: state.appdarkmodestate,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    fetchallData: (data) => dispatch(studentdashboarddata(data)),
+    fetchallTeacherData: (data) => dispatch(Teacherdashboarddata(data)),
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StudentUpdateScreen);
-
-const {height} = Dimensions.get('screen');
-const height_logo = height * 0.28;
+export default connect(mapStateToProps,mapDispatchToProps)(TeacherProfileUpdate);
 
 const styles = StyleSheet.create({
-  linearGradient: {
-    flex: 1,
-  },
-  header: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  footer: {
-    flex: 2,
-    backgroundColor: '#fff',
-    borderTopLeftRadius: hp('2%'),
-    borderTopRightRadius: hp('2%'),
-    paddingVertical: hp('2%'),
-    paddingHorizontal: hp('3%'),
-    marginTop: hp('2%'),
-  },
   logo: {
-    width: wp('25%'),
-    height: wp('25%'),
-    alignSelf: 'center',
-    borderRadius: hp('20%'),
-  },
-  newlog: {
-    width: wp('30%'),
     height: hp('15%'),
-    marginTop: hp('2%'),
-  },
-  title: {
-    color: '#05375a',
-    fontSize: 30,
-    fontWeight: 'bold',
+    width: hp('15%'),
+    borderRadius: hp('8%'),
     alignSelf: 'center',
-  },
-  text: {
-    color: 'grey',
-    marginTop: 5,
-  },
-  button: {
-    alignItems: 'flex-end',
-    marginTop: 30,
-  },
-  signIn: {
-    width: 150,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-    flexDirection: 'row',
-  },
-  textSign: {
-    color: 'white',
-    fontWeight: 'bold',
   },
   buttonText: {
     fontSize: hp('3%'),
@@ -558,12 +478,5 @@ const styles = StyleSheet.create({
     margin: 10,
     color: '#ffffff',
     backgroundColor: 'transparent',
-  },
-  loginMainHeading: {
-    fontSize: hp('3%'),
-  },
-  loginSubHeading: {
-    fontSize: hp('3%'),
-    fontWeight: 'bold',
   },
 });

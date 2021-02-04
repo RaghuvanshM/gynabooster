@@ -9,11 +9,16 @@ import {
     View,
     Button,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    FlatList,
+    ScrollView,
+    ActivityIndicator
 
 } from 'react-native';
 import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import { create } from 'react-test-renderer';
+import AllClassCardComponent from '../Component/ClassCard';
+
 class HomeScreen extends Component {
     constructor(props) {
         super(props)
@@ -28,87 +33,70 @@ class HomeScreen extends Component {
         })
         this.props.navigation.navigate('courses')
     }
-    componentDidMount() {
-        const url = 'https://gyanbooster.jingleinfo.com/mobileapp/user/view_class'
-        return dispatch => {
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': 'prabhat@123'
-                },
-                credentials: 'include',
-            }).then(res => res.json())
-                .then(res2 => {
-                    console.log(res2)
-                    dispatch({
-                        type: 'STUDENT_CLASSES_DATA',
-                        payload: res2
-
-                    })
-                }
-                );
-        }
+    onSubmit=()=>{
+      const url ='https://gyanbooster.jingleinfo.com/mobileapp/user/view_class'
+      fetch(url,{
+        headers: {
+            Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'x-api-key': 'prabhat@123',
+              'Cache-Control': 'no-cache'
+          },
+      }).then((response)=>response.json())
+      .then(dataResponse=>{
+       
+      })
     }
+
     render() {
         // let {name} = this.props.studentalldata
-        console.log
+        let { studentclasses } = this.props
         let { isClassTouch } = this.state
         return (
-            <View>
+            <View style={{flex:1}}>
                 <LinearGradient colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: hp('30%') }}>
                     <HeaderScreen {...this.props} imagae={true} />
-                    <View>
-                        <View style={{ marginTop: wp('6%') }}>
-                            <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold' }}>Hi raghuvansh </Text>
-                            <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold', marginTop: hp('1%'), fontSize: hp('2%') }}>Choose your class</Text>
-                        </View>
-                        <View>
-                            <Card style={styles.allcourses}>
-                                <Text style={{ margin: hp('2%') }}>class 4-12</Text>
-                                <View style={{ flexDirection: 'row', margin: hp('3%'), alignSelf: 'center' }}>
-                                    <TouchableOpacity
-                                        onPress={() => { this.classTouch() }}
-                                    >
-                                        <Card style={{ ...styles.classesCard, backgroundColor: isClassTouch ? '#3b8d99' : 'white' }}>
-                                            <Text style={styles.ClassesText}>4th</Text>
-                                        </Card>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={{ marginLeft: wp('3%') }}
-                                    //    onPress={()=>{this.classTouch()}}
-                                    >
-                                        <Card style={{ ...styles.classesCard }}>
-                                            <Text style={styles.ClassesText}>5th</Text>
-                                        </Card>
-                                    </TouchableOpacity>
-                                    <View style={{ marginLeft: wp('3%') }}>
-                                        <Card style={styles.classesCard}>
-                                            <Text style={styles.ClassesText}>6th</Text>
-                                        </Card>
-                                    </View>
-                                </View>
-                            </Card>
-
-                        </View>
-                    </View>
+                    <View style={{ marginTop: wp('6%') }}>
+                    <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold' }}>Hi raghuvansh </Text>
+                    <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold', marginTop: hp('1%'), fontSize: hp('2%') }}>Choose your class</Text>
+                </View>
+                   
                 </LinearGradient>
+                    { studentclasses?<FlatList
+                            data={studentclasses}
+                            renderItem={item=><AllClassCardComponent data={item} {...this.props} />}
+                            numColumns={2}
+                            keyExtractor={(item) => item.id}
+                            contentContainerStyle={{
+                                flexGrow: 1,
+                                }}
+                             showsVerticalScrollIndicator={false}
+                        // style={{
+                        //     padding: SIZES.padding * 2,
+                        //     marginBottom: SIZES.padding * 2
+                        // }}
+                        />:<ActivityIndicator size="large" color="#631139" 
+                        style={{justifyContent:'center',alignSelf:'center'}} 
+                        />}
+                  
+                    <Card style={{marginBottom:hp('2%')}}>
+
+                    </Card>
             </View>
         )
     }
 }
 function mapStateToProps(state) {
-    console.log(state)
 
     return {
         studentalldata: state.studentData,
-        studentclasses:state.studentClassesData
+        studentclasses: state.studentClassesData
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
         fetchallData: (data) => dispatch(studentdashboarddata(data)),
-      
+
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

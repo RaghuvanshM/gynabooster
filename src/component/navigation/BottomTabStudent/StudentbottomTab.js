@@ -18,7 +18,7 @@ class  MyTabs extends Component {
     super(props)
   }
   componentDidMount(){
-   this.props.fetchallCourse()
+  this.props.fetchallCourse()
   }
   render(){
   return (
@@ -56,7 +56,6 @@ class  MyTabs extends Component {
     }
 }
 function mapStateToProps(state) {
-
   return {
       studentalldata: state.studentData
   }
