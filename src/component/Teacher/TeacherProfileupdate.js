@@ -244,6 +244,15 @@ class TeacherProfileUpdate extends Component {
       isapihit,
       isProfileImageModal,
     } =this.state;
+     const theme = {
+      roundness: 5,
+      colors: {
+        text: 'black',
+        placeholder: '#0b59b8',
+        primary: 'green',
+        background: 'white',
+      },
+    };
     return (
       <View style={{flex: 1}}>
         <ScrollView>

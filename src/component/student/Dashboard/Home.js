@@ -49,7 +49,7 @@ class HomeScreen extends Component {
     }
 
     render() {
-        // let {name} = this.props.studentalldata
+        let {name} = this.props.studentalldata
         let { studentclasses } = this.props
         let { isClassTouch } = this.state
         return (
@@ -57,7 +57,7 @@ class HomeScreen extends Component {
                 <LinearGradient colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: hp('30%') }}>
                     <HeaderScreen {...this.props} imagae={true} />
                     <View style={{ marginTop: wp('6%') }}>
-                    <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold' }}>Hi raghuvansh </Text>
+                    <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold' }}>{`Hi ${name}`} </Text>
                     <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold', marginTop: hp('1%'), fontSize: hp('2%') }}>Choose your class</Text>
                 </View>
                    

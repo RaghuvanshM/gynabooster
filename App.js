@@ -10,6 +10,7 @@ import {
   DarkTheme as PaperDarkTheme,
 } from 'react-native-paper';
 const Stack = createStackNavigator();
+
 import SplashComponent from './src/component/Loading';
 import TeacherLoginComponent from './src/component/Teacher/TeacherLogin';
 import TeaccherSignComponent from './src/component/Teacher/Teachersignup';

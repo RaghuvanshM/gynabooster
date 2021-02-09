@@ -31,10 +31,10 @@ export default class SplashScreen extends Component {
                     animation="fadeInUp"
                     style={styles.footer}>
                     <View style={{flexDirection:'row',alignSelf:'center'}}>
-                    <Text style={styles.loginMainHeading}>Are your Teacher</Text>
+                    <Text style={styles.loginMainHeading}>Are you Teacher</Text>
                     <Text style={styles.loginSubHeading}>or Student ?</Text>
                     </View>
-                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: hp('6%'), width: wp('70%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
+                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height:50, width: wp('85%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
                         <TouchableOpacity
                             onPress={() => { this.props.navigation.navigate('TeacherLogin') }}
                         >
@@ -43,7 +43,7 @@ export default class SplashScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </LinearGradient>
-                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: hp('6%'), width: wp('70%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
+                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height:50, width: wp('85%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
                         <TouchableOpacity
                             onPress={() => { this.props.navigation.navigate('StudentLogin') }}
                         >

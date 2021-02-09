@@ -107,7 +107,7 @@ class StudentLogin extends Component {
                         </View>
                         <View style={{ alignSelf: 'center' }}>
                             <TextInput
-                                style={{ width: wp('80%'), marginTop: hp('2%') }}
+                                style={{ width: wp('85%'), marginTop: hp('2%') }}
                                 label="Email"
                                 value={email}
                                 mode="outlined"
@@ -120,7 +120,7 @@ class StudentLogin extends Component {
                                 />}
                             />
                             <TextInput
-                                style={{ width: wp('80%'), marginTop: hp('2%') }}
+                                style={{ width: wp('85%'), marginTop: hp('2%') }}
                                 label="Password"
                                 value={password}
                                 mode="outlined"
@@ -134,7 +134,7 @@ class StudentLogin extends Component {
                                 onChangeText={text => this.setState({ password: text })}
                             />
                         </View>
-                        <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: hp('7%'), width: wp('70%'), marginTop: hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
+                        <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height: 50, width: wp('85%'), marginTop: hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
                             <TouchableOpacity
                                 onPress={() => { this.StudentLogin()}}
                             >
