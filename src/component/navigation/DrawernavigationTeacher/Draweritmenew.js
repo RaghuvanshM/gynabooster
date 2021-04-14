@@ -29,6 +29,7 @@ import {
   faPenSquare,
   faPhone,
   faPhoneVolume,
+  faSignOutAlt,
   faSquare,
   faSun,
   faUser,
@@ -44,7 +45,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import {studentClass, DarkMode} from '../../../redux/action/studentdata';
 import {State} from 'react-native-gesture-handler';
 import FlipToggle from 'react-native-flip-toggle-button';
-import {color} from 'react-native-reanimated';
 class DrawerContent extends Component {
   constructor(props) {
     super(props);
@@ -63,11 +63,15 @@ class DrawerContent extends Component {
     this.setState({isActive: !this.state.isActive});
     this.props.AppDarkMode(!isActive);
   };
+  onsignoutbuttonpress =()=>{
+    AsyncStorage.removeItem('Loginid')
+    this.props.navigation.navigate('StudentLogin')
+  }
   render() {
-    //  console.log(this.props.studentalldata);
     let {appDarkmode} = this.props;
     let {isActive} = this.state;
     let {name, email, phone, city, age, img} = this.props.studentalldata;
+
     const url =
       'http://gyanbooster.jingleinfo.com/mobileapp/upload/studentprofile/' +
       img;
@@ -85,7 +89,7 @@ class DrawerContent extends Component {
             }}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View>
+              {/* <View>
                 <TouchableOpacity
                   onPress={() => {
                     this.OnDarkModde(isActive);
@@ -104,7 +108,7 @@ class DrawerContent extends Component {
                     />
                   )}
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <TouchableOpacity
                 onPress={() => {
                   this.props.navigation.navigate('studentprofileup');
@@ -123,8 +127,9 @@ class DrawerContent extends Component {
                 <FastImage source={{uri: url}} style={styles.profileimage} />
               </View>
               <View style={{marginTop: hp('5%')}}>
+              {/* <Text style={{color: 'white'}}>{email}</Text> */}
                 <Text style={{color: 'white', fontWeight: 'bold'}}>{name}</Text>
-                <Text style={{color: 'white'}}>{email}</Text>
+               {/* {email!=''? <Text style={{color: 'white'}}>{email.length<10?{email}:`${email.substring(0,10)}....`}</Text>:null} */}
               </View>
             </View>
           </LinearGradient>
@@ -280,6 +285,28 @@ class DrawerContent extends Component {
                   }
                   onPress={() => {
                     this.props.navigation.navigate('contactus');
+                  }}
+                />
+              </View>
+              <View>
+                <DrawerItem
+                  labelStyle={styles.drawerContentList}
+                  inactiveBackgroundColor={styles.back}
+                  icon={() => (
+                    <View>
+                      <FontAwesomeIcon
+                        icon={faSignOutAlt}
+                        style={styles.drawerIcon}
+                        size={20}
+                      />
+                    </View>
+                  )}
+                  label="Sign Out"
+                  labelStyle={
+                    appDarkmode ? styles.labelstyle : styles.newlabelstyle
+                  }
+                  onPress={() => {
+                   this.onsignoutbuttonpress()
                   }}
                 />
               </View>

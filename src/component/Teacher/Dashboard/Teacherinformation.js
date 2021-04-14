@@ -65,7 +65,6 @@ class TeacherInformation extends Component {
       education,experience,mobile_date,
       mobile_time,fees
     } = this.props.TeacherOtherInformationdata;
-    console.log(this.props.TeacherOtherInformationdata)
     this.setState({
       AboutMe:aboutme,
       classbatch:batch,

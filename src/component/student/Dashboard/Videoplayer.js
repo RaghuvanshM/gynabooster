@@ -1,57 +1,100 @@
-import React, {Component} from 'react';
-import {Text, StyleSheet, View,Dimensions,ActivityIndicator} from 'react-native';
-import {WebView} from 'react-native-webview';
+import React, { Component } from 'react';
+import { Text, StyleSheet, View, Dimensions, ActivityIndicator } from 'react-native';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { WebView } from 'react-native-webview';
+import YouTube from 'react-native-youtube';
 class VideoComponent extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      orientation:''
+    this.state = {
+      orientation: ''
     }
   }
-   isPortrait = () => {
+  isPortrait = () => {
     const dim = Dimensions.get('screen');
     return dim.height >= dim.width;
-};
+  };
 
-/**
- * Returns true of the screen is in landscape mode
- */
-isLandscape = () => {
+  /**
+   * Returns true of the screen is in landscape mode
+   */
+  isLandscape = () => {
     const dim = Dimensions.get('screen');
     return dim.width >= dim.height;
-};
-  componentDidMount(){
-  Dimensions.addEventListener('change', () => {
-    this.setState({
+  };
+  componentDidMount() {
+    Dimensions.addEventListener('change', () => {
+      this.setState({
         orientation: this.isPortrait() ? 'portrait' : 'landscape'
-    });
-})
+      });
+    })
   }
-  rhtmlspecialchars=(str)=> {
-    if (typeof(str) == "string") {
-     str = str.replace(/&gt;/ig, "");
-     str = str.replace(/&lt;/ig, "");
-     str = str.replace(/&#039;/g, "");
-     str = str.replace(/&quot;/ig, '');
-     str = str.replace(/&amp;/ig, '');
-     str = str.replace(/rdquo;/ig, '');
-     str = str.replace(/ldquo;/ig, '');
-     str = str.replace(/nbsp;/ig, '');
-     str = str.replace(/rsquo;/ig, '');
-     str = str.replace(/p;/g, '');
-
-   
-     }
-    return str;
+  rhtmlspecialchars = (str) => {
+    if (typeof (str) == "string") {
+      str = str.replace(/&gt;/ig, "");
+      str = str.replace(/&lt;/ig, "");
+      str = str.replace(/&#039;/g, "");
+      str = str.replace(/&quot;/ig, '');
+      str = str.replace(/&amp;/ig, '');
+      str = str.replace(/rdquo;/ig, '');
+      str = str.replace(/ldquo;/ig, '');
+      str = str.replace(/nbsp;/ig, '');
+      str = str.replace(/rsquo;/ig, '');
+      str = str.replace(/p;/g, '');
     }
+    return str;
+  }
+  handleWebViewNavigationStateChange = (newNavState) => {
+    // newNavState looks something like this:
+    // {
+    //   url?: string;
+    //   title?: string;
+    //   loading?: boolean;
+    //   canGoBack?: boolean;
+    //   canGoForward?: boolean;
+    // }
+    const { url } = newNavState;
+    if (!url) return;
+
+    // handle certain doctypes
+    if (url.includes('.pdf')) {
+      this.webview.stopLoading();
+      // open a modal with the PDF viewer
+    }
+
+    // one way to handle a successful form submit is via query strings
+    if (url.includes('?message=success')) {
+      this.webview.stopLoading();
+      // maybe close this view?
+    }
+
+    // one way to handle errors is via query string
+    if (url.includes('?errors=true')) {
+      this.webview.stopLoading();
+    }
+
+    // redirect somewhere else
+    if (url.includes('google.com')) {
+      const newURL = 'https://reactnative.dev/';
+      const redirectTo = 'window.location = "' + newURL + '"';
+      this.webview.injectJavaScript(redirectTo);
+    }
+  }
   render() {
-    let {video_url,course_desc} = this.props.route.params.videodata;
+    let { video_url, course_desc } = this.props.route.params.videodata;
     let videoid = video_url.replace('https://www.youtube.com/watch?v=', '');
+    if(video_url!=''){
     return (
       <View >
         {
          this.state.orientation!=='landscape' ?<View style={{height: '70%', width: '100%'}}>
           <WebView
+          mediaPlaybackRequiresUserAction={true}
+          allowsInlineMediaPlayback={true}
+          javaScriptEnabled={true}
+          allowsFullscreenVideo={true}
+          onNavigationStateChange={this.handleWebViewNavigationStateChange}
+          domStorageEnabled={true}
           ref={(ref) => {
             this.videoPlayer = ref;
           }}
@@ -72,7 +115,12 @@ isLandscape = () => {
             this.videoPlayer = ref;
           }}
           controls
-          
+          mediaPlaybackRequiresUserAction={true}
+          allowsInlineMediaPlayback={true}
+          javaScriptEnabled={true}
+          allowsFullscreenVideo={true}
+          domStorageEnabled={true}
+          onNavigationStateChange={this.handleWebViewNavigationStateChange}
           source={{
             html:
               '<html><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" /><iframe src="https://www.youtube-nocookie.com/embed/' +
@@ -91,6 +139,14 @@ isLandscape = () => {
           </View>}
       </View>
     );
+      }
+      else{
+
+     
+        return(
+          <ActivityIndicator size='large' color='red' style={{flex:1,alignSelf:'center',marginTop:20}} />
+        )
+      }
   }
 }
 export default VideoComponent;

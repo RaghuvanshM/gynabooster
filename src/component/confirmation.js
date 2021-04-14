@@ -14,9 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 export default class SplashScreen extends Component {
-
     render() {
-
         return (
             <LinearGradient start={{ x: 0.0, y: 0.1 }} end={{ x: 0.3, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={styles.linearGradient}>
                 <View style={styles.header}>
@@ -34,7 +32,7 @@ export default class SplashScreen extends Component {
                     <Text style={styles.loginMainHeading}>Are you Teacher</Text>
                     <Text style={styles.loginSubHeading}>or Student ?</Text>
                     </View>
-                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height:50, width: wp('85%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
+                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{  width: wp('85%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
                         <TouchableOpacity
                             onPress={() => { this.props.navigation.navigate('TeacherLogin') }}
                         >
@@ -43,7 +41,7 @@ export default class SplashScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </LinearGradient>
-                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{ height:50, width: wp('85%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
+                    <LinearGradient start={{ x: 0.1, y: 0.1 }} end={{ x: 0.7, y: 1.0 }} colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={{  width: wp('85%'),marginTop:hp('2%'), borderRadius: 10, alignSelf: 'center' }}>
                         <TouchableOpacity
                             onPress={() => { this.props.navigation.navigate('StudentLogin') }}
                         >
@@ -116,6 +114,7 @@ const styles = StyleSheet.create({
         fontSize:hp('3%'),
         color: '#ffffff',
         backgroundColor: 'transparent',
+        padding:10
     },
     loginMainHeading: {
         fontSize: hp('3%'),
@@ -126,6 +125,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
 
     },
-
 
 });

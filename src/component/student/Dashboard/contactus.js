@@ -14,7 +14,7 @@ class ContactUsComponent extends Component {
     this.state = {
       message: 'hello',
       mobileNo: 78957694555,
-    };
+    }
   }
  phoneCall =()=>{
   const args = {
@@ -25,7 +25,7 @@ class ContactUsComponent extends Component {
   call(args).catch(console.error)
  }
   render() {
-    const url = 'whatsapp://send?text=&phone=+917895769455';
+    const url = 'whatsapp://send?text=Hi&phone=+917895769455';
     return (
       <View>
         <View style={{flexDirection:'row',marginTop:hp('4%')}}>

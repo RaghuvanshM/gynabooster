@@ -5,8 +5,7 @@ import {
  Button,
  TouchableOpacity
 } from 'react-native'
-import HomeScreenComponent from '../../student/Dashboard/Home'
-import TestScreenComponent from '../../student/Dashboard/Test'
+import { HomeScreenComponent,TestScreenComponent,BlogScreenComponent } from '../../../index';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { studentClass } from '../../../redux/action/studentdata'
@@ -21,12 +20,13 @@ class  MyTabs extends Component {
   this.props.fetchallCourse()
   }
   render(){
+    let {mode} = this.props
   return (
     <Tab.Navigator
     tabBarOptions={{
-        activeTintColor: '#ab2020',
+        activeTintColor:mode?'white':'#ab2020',
         inactiveTintColor:'grey',
-        style:{height:hp('8%'),borderRadius:hp('1%')},
+        style:{height:hp('10%'),borderRadius:hp('1%'),borderTopLeftRadius:hp('3%'),borderTopRightRadius:hp('3%')},
         labelStyle: {
           fontSize:hp('2%'),
           margin: 0,
@@ -43,6 +43,14 @@ class  MyTabs extends Component {
 
       }}
        />
+        <Tab.Screen 
+      name="Blogs" 
+      component={BlogScreenComponent} 
+      options={{
+        tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="file-certificate" color={color} size={hp('5%')} />)
+
+      }}
+      />
       <Tab.Screen 
       name="Test" 
       component={TestScreenComponent} 
@@ -57,7 +65,8 @@ class  MyTabs extends Component {
 }
 function mapStateToProps(state) {
   return {
-      studentalldata: state.studentData
+      studentalldata: state.studentData,
+      mode:state.appdarkmodestate
   }
 }
 function mapDispatchToProps(dispatch) {

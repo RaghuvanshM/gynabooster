@@ -29,7 +29,6 @@ import {ScrollView, TapGestureHandler} from 'react-native-gesture-handler';
 import {showMessage, hideMessage} from 'react-native-flash-message';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
-import {color} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {studentdashboarddata} from '../../redux/action/studentdata';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -184,11 +183,11 @@ class StudentUpdateScreen extends Component {
       let id = parseInt(token);
       ImagePicker.showImagePicker(options, (response) => {
         if (response.didCancel) {
-          console.log('User cancelled photo picker');
+      
         } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
+         
         } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
+    
         } else {
           let source = {uri: response.uri};
           this.setState({isProfileImageModal: true});
@@ -301,7 +300,7 @@ class StudentUpdateScreen extends Component {
           </LinearGradient>
           <View style={{alignSelf: 'center'}}>
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%'),color:'white'}}
+              style={{width: wp('90%'), marginTop: hp('2%'),color:'white'}}
               label="Name"
               value={name}
               placeholderTextColor='white'
@@ -312,7 +311,7 @@ class StudentUpdateScreen extends Component {
               onChangeText={(text) => this.setState({name: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Name"
               value={name}
               onFocus={() => this.setState({logoNewStyle: true})}
@@ -323,7 +322,7 @@ class StudentUpdateScreen extends Component {
               onChangeText={(text) => this.setState({name: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Mobile"
               value={phone}
               keyboardType="number-pad"
@@ -332,7 +331,7 @@ class StudentUpdateScreen extends Component {
               onChangeText={(text) => this.setState({mobile: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Email"
               value={email}
               disabled={true}
@@ -361,56 +360,54 @@ class StudentUpdateScreen extends Component {
                             />
                         </View> */}
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Age"
               value={age}
-              mode="outlined"
               onChangeText={(text) => this.setState({age: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Addrees"
               value={address}
               onChangeText={(text) => this.setState({address: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Event Name"
               onChangeText={(text) => this.setState({event_name: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Country"
               value={country}
               onChangeText={(text) => this.setState({country: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="State"
               value={state}
-              mode="outlined"
               onChangeText={(text) => this.setState({state: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="City"
               value={city}
               onChangeText={(text) => this.setState({city: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Land-Mark"
               value={landmark}
               onChangeText={(text) => this.setState({landmark: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="Pind Code"
               value={pin_code}
               onChangeText={(text) => this.setState({pin_code: text})}
             />
             <TextInput
-              style={{width: wp('80%'), marginTop: hp('2%')}}
+              style={{width: wp('90%'), marginTop: hp('2%')}}
               label="About Institute"
               value={aboutinstitute}
               onChangeText={(text) => this.setState({aboutinstitute: text})}

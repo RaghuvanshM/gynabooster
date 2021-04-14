@@ -135,3 +135,24 @@ export function AllCourseGetData(){
       );
     }  
 }
+export function BlogData(){
+  const url = 'https://gyanbooster.jingleinfo.com/mobileapp/user/view_blog'
+  return dispatch=>{
+   fetch(url, {
+      headers: {
+        Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'x-api-key': 'prabhat@123',
+          'Cache-Control': 'no-cache'
+      },
+      credentials: 'include',
+  }).then(res => res.json())
+      .then(res2 => {
+        dispatch({
+          type:'GET_BLOG_DATA',
+          payload:res2
+        })
+      }
+      );
+    }  
+}

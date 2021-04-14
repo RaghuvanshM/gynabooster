@@ -19,7 +19,7 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import * as Animatable from 'react-native-animatable';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
-import { showMessage, hideMessage } from "react-native-flash-message"
+import { showMessage, hideMessage } from "react-native-flash-message";
 export default class TeacherLoginScreen extends Component {
     constructor(props) {
         super(props)
@@ -35,7 +35,6 @@ export default class TeacherLoginScreen extends Component {
             password: '',
             cpassword: '',
             isapihit:false
-
         }
         // binding all the funtion 
         this.TeacherSignUp = this.TeacherSignUp.bind(this);

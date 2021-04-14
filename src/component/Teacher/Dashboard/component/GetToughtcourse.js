@@ -3,7 +3,6 @@ import { Card } from 'react-native-paper';
 import {Text,StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import { heightPercentageToDP as hp ,widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { color } from 'react-native-reanimated';
 class TouchtCouresComponent extends Component {
     constructor(props){
         super(props);

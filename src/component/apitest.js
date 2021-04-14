@@ -1,30 +1,43 @@
 import React, { Component } from 'react'
 import {
-Text,
-View,
-Button
+    Text,
+    View,
+    Button,
+    Image
 } from 'react-native'
-class ApiTestComponent extends Component{
-    fetchAllData=()=>{
+class ApiTestComponent extends Component {
+    fetchAllData = () => {
+        let data = {
+            category_id:2
+          }
         debugger
-        const url = 'https://gyanbooster.jingleinfo.com/mobileapp/user/view_class'
+        const url = 'https://gyanbooster.jingleinfo.com/mobileapp/user/view_course_byID'
         fetch(url, {
-          headers: {
-              'x-api-key': 'prabhat@123'
-          },
-      }).then(res => res.json())
-          .then(data => {
-    
-      })
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'x-api-key': 'prabhat@123',
+                'Cache-Control': 'no-cache'
+            },
+            credentials: 'include',
+            body:JSON.stringify(data)
+        }).then(res => res.json())
+            .then(data => {
+
+            })
     }
-    render(){
-        return(
+    render() {
+        return (
             <View>
-            <Text>hello</Text>
-            <Button   
-            title="click buttom"
-            onPress={()=>{this.fetchAllData()}}
-            />
+                <Text>hello</Text>
+                <Button
+                    title="click buttom"
+                    onPress={() => { this.fetchAllData() }}
+                />
+                <Image 
+                 source={require('../assets/ndp.png')}
+                />
             </View>
         )
     }

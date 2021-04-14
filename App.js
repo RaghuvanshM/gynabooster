@@ -10,7 +10,6 @@ import {
   DarkTheme as PaperDarkTheme,
 } from 'react-native-paper';
 const Stack = createStackNavigator();
-
 import SplashComponent from './src/component/Loading';
 import TeacherLoginComponent from './src/component/Teacher/TeacherLogin';
 import TeaccherSignComponent from './src/component/Teacher/Teachersignup';
@@ -32,7 +31,7 @@ import {Provider, connect} from 'react-redux';
 import DrawerContentComponent from './src/component/navigation/DrawernavigationTeacher/Draweritmenew';
 import MaterTopBarScreen from './src/component/Teacher/Dashboard/TopBarnavigation/TeacherTopbarnavigation'
 import TeacherInformationScreen from './src/component/Teacher/Dashboard/Teacherinformation'
-
+import { BlogDetailsPage,TestInstructionComponent,StarttestComponent } from './src/index';
 
 //Teahcer screen import
 
@@ -100,6 +99,11 @@ class App extends Component {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="blogdetails"
+            component={BlogDetailsPage}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="videoplayer"
             component={VidePlyerScreenComponent}
             options={{headerShown: false}}
@@ -107,6 +111,16 @@ class App extends Component {
           <Stack.Screen
             name="contactus"
             component={ContactUsScreecComponent}
+            options={{headerShown: false}}
+          />
+            <Stack.Screen
+            name="testinstruction"
+            component={TestInstructionComponent}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="starttest"
+            component={StarttestComponent}
             options={{headerShown: false}}
           />
 

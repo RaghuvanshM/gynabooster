@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import {
     View,
@@ -13,10 +11,10 @@ import {
     ActivityIndicator
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { TextInput } from 'react-native-paper';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import * as Animatable from 'react-native-animatable';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -76,9 +74,6 @@ class StudentLogin extends Component {
                 }
             })
     }
-
-
-
     render() {
         let { email, showpassword, password, isApihit } = this.state;
         const eye = <TextInput.Icon name="eye" size={25} color={'#C22D0D'}
@@ -143,6 +138,11 @@ class StudentLogin extends Component {
                             </Text> : <View style={{ alignSelf: "center", marginTop: hp('1%') }} ><ActivityIndicator size="large" color="white" /></View>}
                             </TouchableOpacity>
                         </LinearGradient>
+                        <View style={{ flexDirection: "row", justifyContent: "center", marginTop: hp('2%') }}>
+                            <Pressable >
+                                <Text style={{ color: "#80080a", marginLeft: wp('1%') }}> Forgot Password ?</Text>
+                            </Pressable>
+                        </View>
                         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: hp('2%') }}>
                             <Text>Don't have an account?</Text>
                             <Pressable onPress={() => { this.props.navigation.navigate('StudentSignUp') }}>
@@ -242,6 +242,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
 
     },
-
 
 });
