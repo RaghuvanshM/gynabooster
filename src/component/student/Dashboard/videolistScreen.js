@@ -28,7 +28,7 @@ class VideoListScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      courseCategoryid:props.route.params.coursecategeryid
+      courseCategoryid: props.route.params.coursecategeryid
     }
   }
   // componentDidMount(){
@@ -90,11 +90,19 @@ class VideoListScreen extends Component {
               />
             </TouchableOpacity>
             <TouchableOpacity
-             onPress={() => { this.props.navigation.navigate('testinstruction',{...this.state}) }}
-           
+              onPress={() => { this.props.navigation.navigate('Resultinform', { ...this.state }) }}
+
             >
-              <LinearGradient colors={['#aa4b6b', '#6b6b83', '#3b8d99']}   style={styles.TestButton} >
-                  <Text style={styles.styletext}>Quiz</Text>
+              <LinearGradient colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={styles.TestButton} >
+                <Text style={styles.styletext}>Result</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => { this.props.navigation.navigate('testinstruction', { ...this.state }) }}
+
+            >
+              <LinearGradient colors={['#aa4b6b', '#6b6b83', '#3b8d99']} style={styles.TestButton} >
+                <Text style={styles.styletext}>Quiz</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>

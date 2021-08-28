@@ -32,10 +32,13 @@ import DrawerContentComponent from './src/component/navigation/DrawernavigationT
 import MaterTopBarScreen from './src/component/Teacher/Dashboard/TopBarnavigation/TeacherTopbarnavigation'
 import TeacherInformationScreen from './src/component/Teacher/Dashboard/Teacherinformation'
 import { BlogDetailsPage,TestInstructionComponent,StarttestComponent } from './src/index';
+import ResultComponent from './src/component/student/Dashboard/Result';
+import CorrectInCorrectComponent from './src/component/student/Dashboard/CorrectInCorrect'
 
 //Teahcer screen import
 
 import TeacherProfileUpdateComponent from './src/component/Teacher/TeacherProfileupdate'
+import Prouductcheckout from './src/component/student/Dashboard/Productcheckout';
 class App extends Component {
   render() {
     return (
@@ -123,6 +126,11 @@ class App extends Component {
             component={StarttestComponent}
             options={{headerShown: false}}
           />
+            <Stack.Screen
+            name="productcheckout"
+            component={Prouductcheckout}
+            options={{headerShown: false}}
+          />
 
           {/* Import Teacher screen  */}
           <Stack.Screen
@@ -148,6 +156,17 @@ class App extends Component {
             <Stack.Screen
             name="Teacherinformation"
             component={TeacherInformationScreen}
+            options={{headerShown: false}}
+          />
+           <Stack.Screen
+            name="Resultinform"
+            component={ResultComponent}
+            options={{headerShown: false}}
+          />
+
+           <Stack.Screen
+            name="CorrectIncorrect"
+            component={CorrectInCorrectComponent}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

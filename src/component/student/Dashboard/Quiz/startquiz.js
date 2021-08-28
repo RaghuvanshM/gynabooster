@@ -3,7 +3,9 @@ import {
     Text,
     View,
     StyleSheet,
-    TouchableOpacity
+    Button,
+    TouchableOpacity,
+    Image
 } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
@@ -14,122 +16,303 @@ import {
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { color } from 'react-native-reanimated';
 import { connect } from 'react-redux'
-import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import RBSheet from "react-native-raw-bottom-sheet";
 import { regex } from '../../Component/constants'
+import { min } from 'date-fns';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import TimerTest from '../../Component/Stopwatch'
+import data from './javascript.json'
+// import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 class TestInstruction extends Component {
     constructor(props) {
         super(props)
         this.state = {
             data: props.route.params.numberoftestquestion,
+            submit_ans_val: '',
             questionnumber: 0,
-            isoptoinselect:false
+            isoptoinselect: false,
+            timer: null,
+            counter: 5,
+            TestDuration: 0,
+            selectedoption: '',
+            isselcted: ''
         }
-    }
-    componentDidMount() {
+        console.log(props);
 
     }
-    previeousquestionbuttonclick=()=>{
-        let {questionnumber} = this.state;
+    convertMinsToTime = (mins) => {
+        var hours = Math.floor(mins / 3600);
+        var minutes = Math.floor((mins - (hours * 3600)) / 60);
+        var seconds = mins - (hours * 3600) - (minutes * 60);
+
+    }
+    componentDidMount() {
+        let { questions } = this.props
         this.setState({
-            questionnumber:questionnumber-1
+            TestDuration: questions && parseInt(questions[0].exam_limit)
         })
     }
-    saveandnextbuttonclick=()=>{
-        let {questionnumber} = this.state;
+    previeousquestionbuttonclick = () => {
+        let { questionnumber } = this.state;
         this.setState({
-            questionnumber:questionnumber+1
+            questionnumber: questionnumber - 1
         })
     }
-    onoptionselect =(uniqueoption)=>{
-        this.setState({
-            isoptoinselect:uniqueoption
+    saveandnextbuttonclick = () => {
+        let { questions } = this.props
+        let { submit_ans_val,questionnumber } = this.state
+        let { class_id, course_category_id, course_id, exam_id, exam_que_id } = questions[questionnumber]
+        const url = 'https://gyanbooster.jingleinfo.com/mobileapp/user/quiz_submit'
+        AsyncStorage.getItem('Loginid').then((token) => {
+            let data = {
+                class_id,
+                course_category_id,
+                course_id,
+                exam_id,
+                question_id: exam_que_id,
+                submit_ans_val,
+                student_id:token
+            }
+            console.log(data)
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-api-key': 'prabhat@123',
+                    'Cache-Control': 'no-cache'
+                },
+                credentials: 'include',
+                body: JSON.stringify(data),
+            }).then((response) => response.json())
+                .then(dataResponse => {
+                    console.log(dataResponse)
+                })
+            let { questionnumber } = this.state;
+            this.setState({
+                questionnumber: questionnumber + 1,
+            })
         })
+    }
+    onoptionselect = (uniqueoption) => {
+        this.setState({
+            isoptoinselect: uniqueoption
+        })
+    }
+    onquestionnumberpress = (questionindex) => {
+        this.setState({
+            questionnumber: questionindex
+        })
+        this.RBSheet.close()
+    }
+    renderquestion = (item, index) => {
+        return (
+            <TouchableOpacity style={styles.questionplate}
+                onPress={() => { this.onquestionnumberpress(item.index) }}
+            >
+                <Text style={styles.itemtext}>{item.index + 1}</Text>
+            </TouchableOpacity>
+        )
+    }
+    onptionSelectionPress = (name) => {
+        this.setState({ isselcted: name })
+        let { questions } = this.props
+        let { questionnumber, selectedoption } = this.state
+        let alloptions = this.props.questions[questionnumber].options
+        alloptions.map((a) => {
+            a.isAnswer = false
+        })
+        let selectedoptionindex = alloptions.findIndex((a => name === a.name))
+        if (selectedoptionindex !== -1) {
+            alloptions[selectedoptionindex].isAnswer = !(alloptions[selectedoptionindex].isAnswer)
+        }
+        this.setState({
+            submit_ans_val: name
+        })
+
+    }
+    renderquestonandoption = () => {
+
+        let { questions } = this.props
+        let { questionnumber, isselcted } = this.state
+        return (
+            <View>
+                {questions && questions[questionnumber].options.map((a, index) => {
+                    return (
+                        <TouchableOpacity style={a.isAnswer ? styles.ontionslistselect : styles.ontionslist}
+                            onPress={() => { this.onptionSelectionPress(a.name) }}
+                            key={a.name}
+                        >
+                            <View style={styles.ontionspoint}>
+                                <Text style={styles.ontionspointtext}>
+                                    {a.pointname}
+                                </Text>
+                            </View>
+                            <View>
+                                <Text style={styles.ontionslistanswer}>{a.name}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )
+                })}
+            </View>
+        )
+    }
+    previeousquestionintruction = () => {
+        alert('this is first question ')
+    }
+    savenextinstruction = () => {
+        alert('this is last question ')
     }
     render() {
-        let { data, questionnumber,isoptoinselect } = this.state;
+        let { questionnumber, isoptoinselect } = this.state;
+        let { questions } = this.props
+        console.log(parseInt(questions[0].exam_limit))
         return (
             <View style={{ flex: 1 }}>
-                <ScrollView style={{marginBottom:hp('4%')}}>
+                <ScrollView style={{ marginBottom: hp('4%') }}>
                     <View style={styles.testinstheader}>
-                       <View>
-                           <Text style={styles.totalandletf}>{data && `${questionnumber+1}/${data.length}`}</Text>
-                       </View>
+                        <View>
+                            <Text style={styles.totalandletf}>{questions && `${questionnumber + 1}/${questions.length}`}</Text>
+                        </View>
+                        {/* <View >
+                            <Timer totalDuration={questions && parseInt(questions[0].exam_limit)*60000} start={true}
+                                reset={this.state.timerReset}
+                                options={options}
+                                handleFinish={handleTimerComplete}
+                                getTime={this.getFormattedTime} />
+                        </View> */}
+                        <View>
+                            <TimerTest
+                                time={20}
+                            />
+                        </View>
+                        <View >
+                            <TouchableOpacity
+                                onPress={() => { this.RBSheet.open() }}
+                            >
+                                <Image source={require('../../../../assets/menu.png')}
+                                    style={{
+                                        height: hp('5%'),
+                                        width: wp('10%'),
+                                        resizeMode: 'contain',
+                                        margin: hp('2%')
+
+                                    }}
+                                />
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
                     <View >
                         <View style={styles.questiontext}>
-                            <Text style={styles.questionstyle}>{data && data[questionnumber].exam_question.replace(regex, ' ')}</Text>
-                            {/* <Text style={styles.questionstyle}>In publishing and graphic design, 
-                    Lorem ipsum is a placeholder text commonly used to 
-                    demonstrate the visual form of a document or a 
-                    typeface without relying on meaningful content. 
-                    Lorem ipsum may be used as a placeholder before 
-                    final copy is available.</Text> */}
+                            <Text style={styles.questionstyle}>{questions && questions[questionnumber].exam_question.replace(regex, ' ')}</Text>
                         </View>
                         <View style={styles.otionsview}>
-                            <TouchableWithoutFeedback style={isoptoinselect===data[questionnumber].exam_opt1?styles.ontionslistselect:styles.ontionslist}
-                            onPress={()=>{this.onoptionselect(data[questionnumber].exam_opt1)}}
-                            >
-                                <View style={styles.ontionspoint}>
-                                    <Text style={styles.ontionspointtext}>A</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.ontionslistanswer}>{data && data[questionnumber].exam_opt1}</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback style={isoptoinselect===data[questionnumber].exam_opt2?styles.ontionslistselect:styles.ontionslist}
-                            onPress={()=>{this.onoptionselect(data[questionnumber].exam_opt2)}}
-                            >
-                                <View style={styles.ontionspoint}>
-                                    <Text style={styles.ontionspointtext}>B</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.ontionslistanswer}>{data && data[questionnumber].exam_opt2}</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback style={isoptoinselect===data[questionnumber].exam_opt3?styles.ontionslistselect:styles.ontionslist}
-                            onPress={()=>{this.onoptionselect(data[questionnumber].exam_opt3)}}
-                            >
-                                <View style={styles.ontionspoint}>
-                                    <Text style={styles.ontionspointtext}>C</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.ontionslistanswer}>{data && data[questionnumber].exam_opt3}</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback style={isoptoinselect===data[questionnumber].exam_opt4?styles.ontionslistselect:styles.ontionslist}
-                              onPress={()=>{this.onoptionselect(data[questionnumber].exam_opt4)}}
-                            >
-                                <View style={styles.ontionspoint}>
-                                    <Text style={styles.ontionspointtext}>D</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.ontionslistanswer}>{data && data[questionnumber].exam_opt1}</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
+                            {this.renderquestonandoption()}
                         </View>
                         <View>
 
                         </View>
                     </View>
                 </ScrollView>
+                <View >
+
+                    <RBSheet
+                        ref={ref => {
+                            this.RBSheet = ref;
+                        }}
+                        height={hp('80%')}
+                        customStyles={{
+                            wrapper: {
+
+                            },
+                            draggableIcon: {
+                                backgroundColor: "red"
+                            }
+                        }}
+
+                        closeOnDragDown={true}
+
+                    >
+                        <View style={styles.rbsheetstyle}>
+                            <View style={styles.ciclewithtext}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={styles.anweredcircle}>
+
+                                    </View>
+                                    <View>
+                                        <Text style={styles.answeredtext}>Answered</Text>
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={styles.notanweredcircle}>
+
+                                    </View>
+                                    <View>
+                                        <Text style={styles.answeredtext}>Unanswered</Text>
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={styles.notvisitedweredcircle}>
+
+                                    </View>
+                                    <View>
+                                        <Text style={styles.answeredtext}>Not Visited</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.ciclewithtext}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={styles.markedandanswerweredcircle}>
+
+                                    </View>
+                                    <View>
+                                        <Text style={styles.answeredtext}>Marked and  Answered</Text>
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={styles.markedanweredcircle}>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.answeredtext}>Marked For Review</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <FlatList
+                                data={data}
+                                renderItem={this.renderquestion}
+                                keyExtractor={(item) => item.question_id}
+                                numColumns={4}
+                                style={{ alignSelf: 'center' }}
+                            />
+                        </View>
+                    </RBSheet>
+                </View>
+
+
+
+
+
+
+
                 < View style={{ height: hp('10%'), backgroundColor: '#3b8d99' }}
                 >
                     <View style={styles.buttonview}>
-                        <TouchableWithoutFeedback style={styles.saveandnext}
-                        disabled={data && data.length-questionnumber==data.length?true:false}
-                        onPress={()=>{this.previeousquestionbuttonclick()}}
+                        <TouchableOpacity style={styles.saveandnext}
+                            onPress={() => { questions && questions.length - questionnumber == questions.length ? this.previeousquestionintruction() : this.previeousquestionbuttonclick() }}
                         >
                             <Text style={styles.buttontext}>Previous</Text>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback style={styles.saveandnext}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.saveandnext}>
 
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback style={styles.saveandnext}
-                        onPress={()=>{this.saveandnextbuttonclick()}}
-                        disabled={data && data.length-1-questionnumber==0?true:false}
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.saveandnext}
+                            onPress={() => { questions && questions.length - 1 - questionnumber == 0 ? this.savenextinstruction() : this.saveandnextbuttonclick() }}
+
                         >
                             <Text style={styles.buttontext}>Save & Next</Text>
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     </View>
                 </ View>
             </View>
@@ -138,9 +321,8 @@ class TestInstruction extends Component {
 }
 
 function mapStateToProps(state) {
-
     return {
-
+        questions: state.testquestiondata
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -152,10 +334,12 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(TestInstruction);
 const styles = StyleSheet.create({
     testinstheader: {
+        flex: 1,
         height: hp('10%'),
         backgroundColor: '#3b8d99',
         flexDirection: 'row',
-
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     questionstyle: {
         fontSize: 20,
@@ -179,8 +363,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         alignSelf: 'center',
-        marginHorizontal:wp('4%'),
-        marginVertical:hp('1.5%')
+        marginHorizontal: wp('4%'),
+        marginVertical: hp('1.5%')
     },
     ontionslist: {
         backgroundColor: '#e8e8e8',
@@ -190,15 +374,15 @@ const styles = StyleSheet.create({
         marginTop: hp('3%'),
         flexDirection: 'row'
     },
-    ontionslistselect:{
+    ontionslistselect: {
         backgroundColor: '#b4e0f0',
         height: hp('10%'),
         width: wp('90%'),
         alignSelf: 'center',
         marginTop: hp('3%'),
         flexDirection: 'row',
-        borderWidth:2,
-        borderColor:'#499155'
+        borderWidth: 2,
+        borderColor: '#499155'
     },
     ontionspoint: {
         height: hp('4%'),
@@ -211,7 +395,7 @@ const styles = StyleSheet.create({
     ontionspointtext: {
         fontSize: 18,
         alignSelf: 'center',
-    
+
 
     },
     ontionslistanswer: {
@@ -219,12 +403,88 @@ const styles = StyleSheet.create({
         marginLeft: wp('6%'),
         fontSize: 20
     },
-    totalandletf:{
-        fontSize:30,
-        color:'white',
-        fontWeight:'bold',
-        padding:20
+    totalandletf: {
+        fontSize: 30,
+        color: 'white',
+        fontWeight: 'bold',
+        padding: 20
+    },
+    rbsheetstyle: {
+        flex: 1,
+        borderTopEndRadius: 200
+    },
+    anweredcircle: {
+        height: hp('4%'),
+        width: hp('4%'),
+        backgroundColor: 'green',
+        borderRadius: hp('2%')
+    },
+    notanweredcircle: {
+        height: hp('4%'),
+        width: hp('4%'),
+        backgroundColor: 'red',
+        borderRadius: hp('2%')
+    },
+    answeredtext: {
+        fontSize: 18,
+        padding: 5
+    },
+    ciclewithtext:
+    {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal: wp('10%'),
+        marginVertical: hp('1%')
+    },
+    notvisitedweredcircle: {
+        height: hp('4%'),
+        width: hp('4%'),
+        borderWidth: 2,
+        borderRadius: hp('2%'),
+        borderColor: '#363333'
+    },
+    markedanweredcircle: {
+        height: hp('4%'),
+        width: hp('4%'),
+        borderRadius: hp('2%'),
+        backgroundColor: '#fce532'
+    },
+    markedandanswerweredcircle: {
+        height: hp('4%'),
+        width: hp('4%'),
+        borderRadius: hp('2%'),
+        backgroundColor: '#fce532',
+        borderWidth: 2,
+        borderColor: 'green'
+
+    },
+    questionplate: {
+        height: hp('6%'),
+        width: hp('6%'),
+        borderRadius: hp('3%'),
+        backgroundColor: '#cfceca',
+        marginHorizontal: wp('2%')
+    },
+    itemtext: {
+        fontSize: 24,
+        alignSelf: 'center',
+        marginTop: hp('1%')
     }
 
 
 })
+const options = {
+    container: {
+        padding: 5,
+        borderRadius: 5,
+        width: 220,
+    },
+    text: {
+        fontSize: 30,
+        color: '#FFF',
+        marginLeft: 7,
+    }
+};
+
+
+const handleTimerComplete = () => alert("custom completion function");

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, Button, FlatList, TouchableOpacity, StyleSheet, 
+import {
+  Text, View, Button, FlatList, TouchableOpacity, StyleSheet,
   Image, ScrollView, Pressable, ActivityIndicator,
   TouchableWithoutFeedback
- } from 'react-native';
+} from 'react-native';
 
 import {
   heightPercentageToDP as hp,
@@ -78,11 +79,16 @@ class AllCourseComponent extends Component {
 
   }
   oncoureImageClicked = (id) => {
+    let { allcoursedata } = this.state
     this.props.fetchallVideoData(id);
-    let data ={coursecategeryid:id}
-    // var filterData = studentcData.filter((item) => item.id == id);
-    // let data = {filtervideodata: filterData};
-    this.props.navigation.navigate('allvideo',{...data});
+    let data = { coursecategeryid: id }
+    var filterData = allcoursedata.filter((item) => item.id == id);
+    if (parseInt(filterData[0].course_amt)>0) {
+      this.props.navigation.navigate('productcheckout', { ...filterData });
+    }
+    else {
+      this.props.navigation.navigate('allvideo', { ...data });
+    }
 
   };
   onCourseCardClick = (id) => {
@@ -253,15 +259,15 @@ class AllCourseComponent extends Component {
             style={styles.nodataimage}
           /> : null} */}
           {
-            !this.state.isdata?<View
-            style={{alignSelf:'center'}}
+            !this.state.isdata ? <View
+              style={{ alignSelf: 'center' }}
             >
               <Image
-            source={require('../../../assets/nodata.png')}
-            style={styles.nodataimage}
-          />
-          <Text style={styles.nodatatext}>No data Found</Text>
-            </View>:null
+                source={require('../../../assets/nodata.png')}
+                style={styles.nodataimage}
+              />
+              <Text style={styles.nodatatext}>No data Found</Text>
+            </View> : null
 
           }
         </View>
@@ -348,13 +354,13 @@ const styles = StyleSheet.create({
     fontSize: 20
 
   },
-  nodataimage:{
-    height:hp('20%'),
-    width:hp('20%'),
-    marginTop:hp('10%')
+  nodataimage: {
+    height: hp('20%'),
+    width: hp('20%'),
+    marginTop: hp('10%')
   },
-  nodatatext:{
-    fontSize:23,
+  nodatatext: {
+    fontSize: 23,
   }
 
 });

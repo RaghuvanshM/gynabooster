@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { color, cos } from 'react-native-reanimated';
+import {fetchPeople} from '../../../../redux/action/questionAction'
 import { connect } from 'react-redux'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 class TestInstruction extends Component {
@@ -25,17 +26,17 @@ class TestInstruction extends Component {
         }
     }
     onstarttestPress=()=>{
-        let {numberoftestquestion } = this.state;
-        if(numberoftestquestion.length>=1){
+        let {questions } = this.props;
+        if(questions.length>=1){
             this.props.navigation.navigate('starttest',{...this.state})
         }
     }
     componentDidMount() {
         let { course_category_id } = this.state
+         this.props.getQuestion(course_category_id)
         let data = {
             course_id: course_category_id
         }
-        console.log(data)
         const url = 'https://gyanbooster.jingleinfo.com/mobileapp/user/quiz_display'
         fetch(url, {
             method: 'POST',
@@ -49,6 +50,7 @@ class TestInstruction extends Component {
             body: JSON.stringify(data)
         }).then(res => res.json())
             .then(res2 => {
+    
                if(res2.response.status){
                    if(res2.data){
                 this.setState({
@@ -65,7 +67,6 @@ class TestInstruction extends Component {
     render() {
         let {course_category_id,numberoftestquestion} =this.state
         let data ={courescategoryid:course_category_id}
-       console.log(numberoftestquestion.length>=1?true:false)
         return (
             <View style={{flex:1}}>
             <ScrollView>
@@ -134,25 +135,26 @@ class TestInstruction extends Component {
                          </Text>
                 </View>
             </ScrollView>
-           <TouchableWithoutFeedback style={{height:hp('10%'),backgroundColor:'#3b8d99'}}
+           <TouchableOpacity style={{height:hp('10%'),backgroundColor:'#3b8d99'}}
         //  onPress={() => { this.props.navigation.navigate('starttest',{...this.state}) }}
         onPress={()=>{this.onstarttestPress()}}
            >
                 <Text style={styles.starttesttext}>Start Test</Text>
-           </TouchableWithoutFeedback>
+           </TouchableOpacity>
             </View>
         )
     }
 }
 
 function mapStateToProps(state) {
+    console.log(state)
     return {
-
+        questions:state.testquestiondata
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-
+     getQuestion:(course_id)=>dispatch(fetchPeople(course_id))
     }
 }
 

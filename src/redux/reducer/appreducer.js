@@ -1,5 +1,6 @@
+import { FETCHING_QUESTION_REQUEST, FETCHING_QUESTION_FAILURE, FETCHING_QUESTION_SUCCESS } from '../action/type'
 const initialStae = {
-  //studentloginstate
+  //studentloginstatem
   studentloginid: '',
   studentloginstatus: '',
   studentloginMessage: '',
@@ -11,7 +12,9 @@ const initialStae = {
   Teacherdashboarddata: [],
   AllCourse: [],
   TeacherOtherInformation: [],
-  AllBlogs: []
+  AllBlogs: [],
+  isFetchingquestion: false,
+  testquestiondata: []
 };
 const reducer = (state = initialStae, action) => {
   switch (action.type) {
@@ -42,6 +45,10 @@ const reducer = (state = initialStae, action) => {
       return { ...state, TeacherOtherInformation: action.payload };
     case 'GET_BLOG_DATA':
       return { ...state, AllBlogs: action.payload };
+    case FETCHING_QUESTION_REQUEST:
+      return { ...state, isFetchingquestion: true };
+    case FETCHING_QUESTION_SUCCESS:
+      return { ...state, testquestiondata: action.payload };
   }
   return state;
 };
