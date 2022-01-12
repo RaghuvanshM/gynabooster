@@ -29,21 +29,27 @@ import ConfirmationScreen from './src/component/confirmation';
 import store from './src/redux/store/appstore';
 import {Provider, connect} from 'react-redux';
 import DrawerContentComponent from './src/component/navigation/DrawernavigationTeacher/Draweritmenew';
-import MaterTopBarScreen from './src/component/Teacher/Dashboard/TopBarnavigation/TeacherTopbarnavigation'
-import TeacherInformationScreen from './src/component/Teacher/Dashboard/Teacherinformation'
-import { BlogDetailsPage,TestInstructionComponent,StarttestComponent } from './src/index';
+import MaterTopBarScreen from './src/component/Teacher/Dashboard/TopBarnavigation/TeacherTopbarnavigation';
+import TeacherInformationScreen from './src/component/Teacher/Dashboard/Teacherinformation';
+import {
+  BlogDetailsPage,
+  TestInstructionComponent,
+  StarttestComponent,
+} from './src/index';
 import ResultComponent from './src/component/student/Dashboard/Result';
-import CorrectInCorrectComponent from './src/component/student/Dashboard/CorrectInCorrect'
+import CorrectInCorrectComponent from './src/component/student/Dashboard/CorrectInCorrect';
 
 //Teahcer screen import
 
-import TeacherProfileUpdateComponent from './src/component/Teacher/TeacherProfileupdate'
+import TeacherProfileUpdateComponent from './src/component/Teacher/TeacherProfileupdate';
 import Prouductcheckout from './src/component/student/Dashboard/Productcheckout';
+import Home from './src/component/student/Dashboard/Home';
+import CourseCategory from './src/component/student/Dashboard/coursecategory';
 class App extends Component {
   render() {
     return (
       <NavigationContainer
-       independent={true}
+        independent={true}
         theme={this.props.appDarkmode ? DarkTheme : DefaultTheme}>
         <Stack.Navigator>
           <Stack.Screen
@@ -116,7 +122,7 @@ class App extends Component {
             component={ContactUsScreecComponent}
             options={{headerShown: false}}
           />
-            <Stack.Screen
+          <Stack.Screen
             name="testinstruction"
             component={TestInstructionComponent}
             options={{headerShown: false}}
@@ -126,7 +132,7 @@ class App extends Component {
             component={StarttestComponent}
             options={{headerShown: false}}
           />
-            <Stack.Screen
+          <Stack.Screen
             name="productcheckout"
             component={Prouductcheckout}
             options={{headerShown: false}}
@@ -143,28 +149,38 @@ class App extends Component {
             component={TeaccherSignComponent}
             options={{headerShown: false}}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="Teacherprofileupdate"
             component={TeacherProfileUpdateComponent}
             options={{headerShown: false}}
           />
-            <Stack.Screen
+          <Stack.Screen
             name="materialtopbar"
             component={MaterTopBarScreen}
             options={{headerShown: false}}
           />
-            <Stack.Screen
+          <Stack.Screen
             name="Teacherinformation"
             component={TeacherInformationScreen}
             options={{headerShown: false}}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="Resultinform"
             component={ResultComponent}
             options={{headerShown: false}}
           />
+          <Stack.Screen
+            name="StudentHome"
+            component={Home}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="coursecategory"
+            component={CourseCategory}
+            options={{headerShown: false}}
+          />
 
-           <Stack.Screen
+          <Stack.Screen
             name="CorrectIncorrect"
             component={CorrectInCorrectComponent}
             options={{headerShown: false}}
