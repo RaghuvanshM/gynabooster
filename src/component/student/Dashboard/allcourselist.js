@@ -1,8 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Text, View, Button, FlatList, TouchableOpacity, StyleSheet,
-  Image, ScrollView, Pressable, ActivityIndicator,
-  TouchableWithoutFeedback
+  Text,
+  View,
+  Button,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Pressable,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import {
@@ -10,8 +18,8 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import CourseListCard from '../Component/courselistCard';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { Card, Title, Paragraph, Subheading } from 'react-native-paper';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {Card, Title, Paragraph, Subheading} from 'react-native-paper';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {
   faArrowLeft,
@@ -19,11 +27,14 @@ import {
   faPenSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import FastImage from 'react-native-fast-image';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import HoroizontalFlatListCourseCard from '../Component/AllClassHorizontallist';
-import { coursethumnail, regex } from '../Component/constants';
-import { studentCourseData, studentVideoData } from '../../../redux/action/studentdata';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {coursethumnail, regex} from '../Component/constants';
+import {
+  studentCourseData,
+  studentVideoData,
+} from '../../../redux/action/studentdata';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 class AllCourseComponent extends Component {
   constructor(props) {
     super(props);
@@ -33,66 +44,63 @@ class AllCourseComponent extends Component {
       categoryid: props.route.params.id,
       allcoursedata: [],
       loading: false,
-      isdata: true
-
+      isdata: true,
     };
   }
   componentDidMount() {
-    let { categoryid } = this.state
+    let {categoryid} = this.state;
     let data = {
-      category_id: categoryid
-    }
-    const url = 'https://gyanbooster.jingleinfo.com/mobileapp/user/view_course_byID'
+      category_id: categoryid,
+    };
+    const url =
+      'https://gyanbooster.jingleinfo.com/mobileapp/user/view_course_byID';
     fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         'x-api-key': 'prabhat@123',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-cache',
       },
       credentials: 'include',
-      body: JSON.stringify(data)
-    }).then(res => res.json())
-      .then(response => {
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((response) => {
         if (response.response.status) {
           this.setState({
             allcoursedata: response.data,
-            loading: true
-          })
+            loading: true,
+          });
           if (response.data.length >= 1) {
-            this.setState({ isdata: true })
-          }
-          else {
+            this.setState({isdata: true});
+          } else {
             this.setState({
-              isdata: false
-            })
+              isdata: false,
+            });
           }
-        }
-        else {
+        } else {
           this.setState({
-            loading: false
-          })
-
+            loading: false,
+          });
         }
-      })
-
+      });
   }
   oncoureImageClicked = (id) => {
-    let { allcoursedata } = this.state
+    let {allcoursedata} = this.state;
     this.props.fetchallVideoData(id);
-    let data = { coursecategeryid: id }
+    let data = {coursecategeryid: id};
     var filterData = allcoursedata.filter((item) => item.id == id);
-    if (parseInt(filterData[0].course_amt)>0) {
-      this.props.navigation.navigate('productcheckout', { ...filterData });
-    }
-    else {
-      this.props.navigation.navigate('allvideo', { ...data });
-    }
-
+    this.props.navigation.navigate('allvideo', {...data});
+    // if (parseInt(filterData[0].course_amt)>0) {
+    //   this.props.navigation.navigate('productcheckout', { ...filterData });
+    // }
+    // else {
+    //   this.props.navigation.navigate('allvideo', { ...data });
+    // }
   };
   onCourseCardClick = (id) => {
-    let { studentcData } = this.props;
+    let {studentcData} = this.props;
     var filterData = studentcData.filter((item) => item.id == id);
     if (filterData[0].description) {
       this.RBSheet.open();
@@ -102,11 +110,11 @@ class AllCourseComponent extends Component {
         type: 'info',
       });
     }
-    this.setState({ filetCourseCard: filterData[0] });
+    this.setState({filetCourseCard: filterData[0]});
   };
   rendercourselist = (item) => {
-    let { course_name, description, thumb_img, course_amt, id } = item.item
-    let { appDarkmode } = this.props;
+    let {course_name, description, thumb_img, course_amt, id} = item.item;
+    let {appDarkmode} = this.props;
     return (
       <TouchableWithoutFeedback
         onPress={() => {
@@ -114,21 +122,18 @@ class AllCourseComponent extends Component {
         }}>
         <Card
           style={appDarkmode ? styles.courseCardDarkmode : styles.couseCard}>
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View>
               <FastImage
                 style={
                   appDarkmode ? styles.courseImageDark : styles.courseImage
                 }
-                source={{ uri: `${coursethumnail}${thumb_img}` }}
+                source={{uri: `${coursethumnail}${thumb_img}`}}
               />
             </View>
-            <View style={{ margin: hp('3%') }}>
+            <View style={{margin: hp('3%')}}>
               <Text
-                style={
-                  appDarkmode ? styles.couresnamedark : styles.cousesname
-                }>
+                style={appDarkmode ? styles.couresnamedark : styles.cousesname}>
                 {course_name}
               </Text>
               <Text
@@ -136,7 +141,7 @@ class AllCourseComponent extends Component {
                   appDarkmode ? styles.coursammountdark : styles.coursammount
                 }>
                 {' '}
-             ₹{course_amt}
+                ₹{course_amt}
               </Text>
               {/* <Pressable
                 onPress={() => {
@@ -157,17 +162,15 @@ class AllCourseComponent extends Component {
           </View>
         </Card>
       </TouchableWithoutFeedback>
-    )
-
-  }
+    );
+  };
   render() {
-
-    let { studentcData, appDarkmode } = this.props;
-    let { filetCourseCard, allcoursedata, loading } = this.state;
+    let {studentcData, appDarkmode} = this.props;
+    let {filetCourseCard, allcoursedata, loading} = this.state;
     if (loading && allcoursedata.length >= 1) {
       return (
         <View>
-          <View style={{ flexDirection: 'row', margin: hp('3%') }}>
+          <View style={{flexDirection: 'row', margin: hp('3%')}}>
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.goBack();
@@ -176,11 +179,13 @@ class AllCourseComponent extends Component {
                 icon={faArrowLeft}
                 size={25}
                 color="#4287f5"
-                style={{ marginTop: 5 }}
+                style={{marginTop: 5}}
               />
             </TouchableOpacity>
-            <Text style={{ fontSize: 24, marginLeft: wp('20%'), color: '#4287f5' }}>Choose Course</Text>
-
+            <Text
+              style={{fontSize: 24, marginLeft: wp('20%'), color: '#4287f5'}}>
+              Choose Course
+            </Text>
           </View>
           <RBSheet
             ref={(ref) => {
@@ -201,7 +206,7 @@ class AllCourseComponent extends Component {
               },
             }}>
             {filetCourseCard ? (
-              <Title numberOfLines={1} style={{ alignSelf: 'center' }}>
+              <Title numberOfLines={1} style={{alignSelf: 'center'}}>
                 {filetCourseCard.course_name}
               </Title>
             ) : null}
@@ -209,9 +214,10 @@ class AllCourseComponent extends Component {
             <ScrollView
               style={appDarkmode ? styles.rbsheetdarkmode : styles.rbsheet}>
               <View>
-                <Title style={appDarkmode ? { color: 'white' } : { color: 'black' }}>
+                <Title
+                  style={appDarkmode ? {color: 'white'} : {color: 'black'}}>
                   Description
-              </Title>
+                </Title>
                 {filetCourseCard ? (
                   <Paragraph
                     style={
@@ -225,10 +231,10 @@ class AllCourseComponent extends Component {
               </View>
             </ScrollView>
           </RBSheet>
-          <View style={{ marginTop: hp('3%') }}>
+          <View style={{marginTop: hp('3%')}}>
             <FlatList
               data={allcoursedata}
-              style={{ marginBottom: hp('30%') }}
+              style={{marginBottom: hp('30%')}}
               initialNumToRender={2}
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={false}
@@ -238,10 +244,9 @@ class AllCourseComponent extends Component {
           </View>
         </View>
       );
-    }
-    else {
+    } else {
       return (
-        <View  >
+        <View>
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.goBack();
@@ -250,28 +255,25 @@ class AllCourseComponent extends Component {
               icon={faArrowLeft}
               size={25}
               color="#4287f5"
-              style={{ marginLeft: wp('5%'), marginTop: wp('5%') }}
+              style={{marginLeft: wp('5%'), marginTop: wp('5%')}}
             />
           </TouchableOpacity>
-          <ActivityIndicator size='large' color='red' />
+          <ActivityIndicator size="large" color="red" />
           {/* {!this.state.isdata ? <Image
             source={require('../../../assets/nodata.png')}
             style={styles.nodataimage}
           /> : null} */}
-          {
-            !this.state.isdata ? <View
-              style={{ alignSelf: 'center' }}
-            >
+          {!this.state.isdata ? (
+            <View style={{alignSelf: 'center'}}>
               <Image
                 source={require('../../../assets/nodata.png')}
                 style={styles.nodataimage}
               />
               <Text style={styles.nodatatext}>No data Found</Text>
-            </View> : null
-
-          }
+            </View>
+          ) : null}
         </View>
-      )
+      );
     }
   }
 }
@@ -316,7 +318,7 @@ const styles = StyleSheet.create({
   descriptionDark: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
   },
   rbsheetdarkmode: {
     backgroundColor: 'black',
@@ -333,7 +335,7 @@ const styles = StyleSheet.create({
     height: hp('16%'),
     width: hp('20%'),
     margin: hp('2%'),
-    resizeMode: 'stretch'
+    resizeMode: 'stretch',
   },
   couseCard: {
     height: hp('20%'),
@@ -346,21 +348,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   coursammount: {
-    color: '#126eb8'
+    color: '#126eb8',
   },
   description: {
     fontWeight: 'bold',
     color: '#786294',
-    fontSize: 20
-
+    fontSize: 20,
   },
   nodataimage: {
     height: hp('20%'),
     width: hp('20%'),
-    marginTop: hp('10%')
+    marginTop: hp('10%'),
   },
   nodatatext: {
     fontSize: 23,
-  }
-
+  },
 });
