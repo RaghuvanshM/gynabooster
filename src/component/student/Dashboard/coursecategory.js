@@ -23,7 +23,11 @@ const CourseCategory = ({navigation}) => {
         </View>
         <Text style={styles.categoryText}>List of category</Text>
       </View>
-      <TouchableOpacity style={styles.classContainer}>
+      <TouchableOpacity
+        style={styles.classContainer}
+        onPress={() => {
+          navigation.navigate('bottomTab');
+        }}>
         <Text style={styles.classText}>Science</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.classContainer}>
@@ -78,6 +82,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: 'row',
     alignItems: 'center',
+    elevation: 10,
   },
   classText: {
     fontSize: 18,

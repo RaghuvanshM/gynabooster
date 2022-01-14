@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: 'row',
     alignItems: 'center',
+    elevation: 20,
   },
   classText: {
     fontSize: 18,
