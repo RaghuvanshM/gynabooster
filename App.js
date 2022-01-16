@@ -34,6 +34,9 @@ import TeacherInformationScreen from './src/component/Teacher/Dashboard/Teacheri
 import { BlogDetailsPage,TestInstructionComponent,StarttestComponent } from './src/index';
 import ResultComponent from './src/component/student/Dashboard/Result';
 import CorrectInCorrectComponent from './src/component/student/Dashboard/CorrectInCorrect'
+import Coursecategory from './src/component/student/Dashboard/coursecategory'
+import CourseList from './src/component/student/Component/courseList';
+import Chapter1 from './src/component/student/Component/Chapter1'
 
 //Teahcer screen import
 
@@ -51,16 +54,24 @@ class App extends Component {
             component={SplashComponent}
             options={{headerShown: false}}
           />
+          
           <Stack.Screen
             name="Confirmation"
             component={ConfirmationScreen}
             options={{headerShown: false}}
           />
+           <Stack.Screen
+            name="Chapter1"
+            component={Chapter1}
+            options={{headerShown: false}}
+          />
+           
           <Stack.Screen
             name="StudentLogin"
             component={StudentLoginComponent}
             options={{headerShown: false}}
           />
+            
           <Stack.Screen
             name="StudentSignUp"
             component={StudentSignUpComponent}
@@ -131,6 +142,24 @@ class App extends Component {
             component={Prouductcheckout}
             options={{headerShown: false}}
           />
+          
+            <Stack.Screen
+            name="Coursecatogry"
+            component={Coursecategory}
+            options={{headerShown: false}}
+          />
+           <Stack.Screen
+            name="CourseList"
+            component={CourseList}
+            options={{headerShown: false}}
+
+          />
+          <Stack.Screen
+            name="Chapter"
+            component={Chapter1}
+            options={{headerShown: false}}
+          />
+
 
           {/* Import Teacher screen  */}
           <Stack.Screen

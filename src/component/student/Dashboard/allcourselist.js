@@ -83,12 +83,13 @@ class AllCourseComponent extends Component {
     this.props.fetchallVideoData(id);
     let data = { coursecategeryid: id }
     var filterData = allcoursedata.filter((item) => item.id == id);
-    if (parseInt(filterData[0].course_amt)>0) {
-      this.props.navigation.navigate('productcheckout', { ...filterData });
-    }
-    else {
-      this.props.navigation.navigate('allvideo', { ...data });
-    }
+    this.props.navigation.navigate('allvideo', { ...data });
+    // if (parseInt(filterData[0].course_amt)>0) {
+    //   this.props.navigation.navigate('productcheckout', { ...filterData });
+    // }
+    // else {
+    //   this.props.navigation.navigate('allvideo', { ...data });
+    // }
 
   };
   onCourseCardClick = (id) => {
