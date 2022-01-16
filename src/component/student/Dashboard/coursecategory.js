@@ -1,76 +1,69 @@
 import React from 'react';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import images from '../../../constant';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const CourseCategory = ({navigation}) => {
+const Coursecategory = ({navigation}) => {
   return (
-    <View style={styles.containner}>
-      <View style={styles.upperView}>
-        <TouchableOpacity
-          style={styles.arrowContainer}
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <AntDesign name="arrowleft" size={25} color={'white'} />
-        </TouchableOpacity>
+    <View style={styles.Container}>
+      <View style={styles.box}>
         <View style={styles.logoContainer}>
           <Image
-            source={images.gyanboosterlogo}
             style={styles.logoimg}
-            resizeMode="contain"
+            source={require('../../../assets/gyanbooster.png')}
           />
         </View>
-        <Text style={styles.categoryText}>List of category</Text>
+        <Text style={styles.title}> List of category</Text>
       </View>
-      <TouchableOpacity
-        style={styles.classContainer}
-        onPress={() => {
-          navigation.navigate('bottomTab');
-        }}>
-        <Text style={styles.classText}>Science</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.classContainer}>
-        <Text style={styles.classText}>Commerce</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.classContainer}>
-        <Text style={styles.classText}>Art</Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity
+          style={styles.classContainer}
+          onPress={() => {
+            navigation.navigate('CourseList');
+          }}>
+          <Text style={styles.classText}>Science</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity style={styles.classContainer}>
+          <Text style={styles.classText}>Commerce</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity style={styles.classContainer}>
+          <Text style={styles.classText}>Arts</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-export default CourseCategory;
+
+export default Coursecategory;
+
 const styles = StyleSheet.create({
-  containner: {
-    flex: 1,
+  Container: {
     backgroundColor: 'white',
   },
-  upperView: {
+  box: {
     height: 250,
     width: '100%',
-    backgroundColor: '#4f469a',
-    borderRadius: 30,
+    borderRadius: 45,
+    backgroundColor: '#52459f',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   logoContainer: {
-    height: 100,
+    height: 120,
     width: '90%',
     backgroundColor: 'white',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 5,
-    borderRadius: 20,
-    justifyContent: 'center',
+    borderRadius: 25,
     alignItems: 'center',
   },
   logoimg: {
-    height: 90,
+    height: 60,
     width: '95%',
-  },
-  categoryText: {
-    fontSize: 14,
-    marginTop: 20,
-    color: 'white',
-    alignSelf: 'center',
   },
   classContainer: {
     height: 60,
@@ -82,21 +75,15 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: 'row',
     alignItems: 'center',
-    elevation: 10,
   },
   classText: {
     fontSize: 18,
     color: 'white',
-    fontWeight: '500',
+    fontWeight: '600',
   },
-  arrowContainer: {
-    height: 40,
-    width: 40,
-    borderRadius: 10,
-    borderColor: '#605baa',
-    borderWidth: 1.5,
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+  title: {
+    marginTop: 40,
+    color: '#ffffff',
+    fontSize: 20,
   },
 });

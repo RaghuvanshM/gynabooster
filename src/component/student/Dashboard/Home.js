@@ -1,18 +1,25 @@
 import React from 'react';
-import {Text, View, StyleSheet, StatusBar, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  Text,
+  View,
+  StyleSheet,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import images from '../../../constant';
+
 const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
+      {/* <StatusBar hidden /> */}
       {/* <View style={styles.arrowContainer}>
         <AntDesign name="arrowleft" size={25} color={'white'} />
       </View> */}
       <View style={styles.logoContainer}>
         <Image
-          source={images.gyanboosterlogo}
+          source={require('../../../assets/gyanbooster.png')}
           style={styles.logoimg}
           resizeMode="contain"
         />
@@ -28,13 +35,23 @@ const Home = ({navigation}) => {
       <TouchableOpacity
         style={styles.classContainer}
         onPress={() => {
-          navigation.navigate('coursecategory');
+          navigation.navigate('Coursecatogry');
         }}>
-        <View style={styles.lefticonContainer}></View>
+        <View style={styles.lefticonContainer}>
+          <Image
+            source={require('../../../assets/class-icon.png')}
+            style={styles.icon}
+          />
+        </View>
         <Text style={styles.classText}>Class X</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.classContainer}>
-        <View style={styles.lefticonContainer}></View>
+        <View style={styles.lefticonContainer}>
+          <Image
+            source={require('../../../assets/class-icon.png')}
+            style={styles.icon}
+          />
+        </View>
         <Text style={styles.classText}>Class XII</Text>
       </TouchableOpacity>
     </View>
@@ -45,24 +62,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4f469a',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
   },
-  arrowContainer: {
-    height: 40,
-    width: 40,
-    borderRadius: 10,
-    borderColor: '#605baa',
-    borderWidth: 1.5,
-    margin: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  // arrowContainer: {
+  //   height: 40,
+  //   width: 40,
+  //   borderRadius: 10,
+  //   borderColor: '#605baa',
+  //   borderWidth: 1.5,
+  //   margin: 10,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+
   logoContainer: {
     height: 120,
     width: '90%',
     backgroundColor: 'white',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: 30,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
@@ -96,12 +115,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: 'row',
     alignItems: 'center',
-    elevation: 20,
   },
   classText: {
     fontSize: 18,
     color: 'white',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   lefticonContainer: {
     height: 35,
@@ -109,5 +127,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: 'white',
     marginRight: 20,
+  },
+  icon: {
+    flex: 1,
+    width: 20,
+    height: 20,
+    borderRadius: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
