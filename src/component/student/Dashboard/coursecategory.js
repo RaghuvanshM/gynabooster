@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import ApiHelper from '../Utills/Apihelper';
 
-const Coursecategory = ({navigation}) => {
+const Coursecategory = ({navigation, route}) => {
+  useEffect(() => {
+    console.log(route.params.class_id);
+    ApiHelper.fetchById(
+      '/get_class_categorey_byID',
+      route.params.class_id,
+    ).then((res) => {
+      console.log(res);
+    });
+  }, []);
   return (
     <View style={styles.Container}>
       <View style={styles.box}>
@@ -18,7 +28,7 @@ const Coursecategory = ({navigation}) => {
         <TouchableOpacity
           style={styles.classContainer}
           onPress={() => {
-            navigation.navigate('CourseList');
+            navigation.navigate('Chapter1');
           }}>
           <Text style={styles.classText}>Science</Text>
         </TouchableOpacity>

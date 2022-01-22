@@ -54,6 +54,8 @@ class StudentLogin extends Component {
     })
       .then((res) => res.json())
       .then((res2) => {
+        console.log(res2);
+        this.props.navigation.navigate('StudentHome');
         if (res2.response.status === 'true') {
           let {id} = res2.data;
           AsyncStorage.setItem('Loginid', id);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -6,11 +6,20 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import ClassCard from '../Component/ClassCard';
+import ApiHelper from '../Utills/Apihelper';
 
 const Home = ({navigation}) => {
+  const [classes, setClasses] = useState([]);
+  useEffect(() => {
+    ApiHelper.fetchGet('/view_classs').then((res) => {
+      setClasses(res);
+    });
+  }, []);
   return (
     <View style={styles.container}>
       {/* <StatusBar hidden /> */}
@@ -32,28 +41,20 @@ const Home = ({navigation}) => {
           <AntDesign name="right" size={30} />
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.classContainer}
-        onPress={() => {
-          navigation.navigate('Coursecatogry');
-        }}>
-        <View style={styles.lefticonContainer}>
-          <Image
-            source={require('../../../assets/class-icon.png')}
-            style={styles.icon}
-          />
-        </View>
-        <Text style={styles.classText}>Class X</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.classContainer}>
-        <View style={styles.lefticonContainer}>
-          <Image
-            source={require('../../../assets/class-icon.png')}
-            style={styles.icon}
-          />
-        </View>
-        <Text style={styles.classText}>Class XII</Text>
-      </TouchableOpacity>
+      <FlatList
+        data={classes}
+        renderItem={(item, index) => {
+          return (
+            <ClassCard
+              onPressClass={() =>
+                navigation.navigate('Coursecatogry', {class_id: item.item.id})
+              }
+              name={item.item.class_name}
+              navigation={navigation}
+            />
+          );
+        }}
+      />
     </View>
   );
 };
