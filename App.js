@@ -46,8 +46,12 @@ import Chapter1 from './src/component/student/Component/Chapter1';
 
 import TeacherProfileUpdateComponent from './src/component/Teacher/TeacherProfileupdate';
 import Prouductcheckout from './src/component/student/Dashboard/Productcheckout';
-import Home from './src/component/student/Dashboard/Home';
+import ClassList from './src/component/student/Dashboard/ClassList';
 import CourseCategory from './src/component/student/Dashboard/coursecategory';
+import StudentBottomTab from './src/component/navigation/BottomTabStudent/StudentbottomTab';
+import HomeScreen from './src/component/student/Dashboard/HomeScreen';
+import CourseDescription from './src/component/student/Dashboard/CourseDescription';
+import StudentAppStack from './src/component/navigation/StudentAppStack';
 class App extends Component {
   render() {
     return (
@@ -88,6 +92,7 @@ class App extends Component {
             component={StudentBottomTabScreen}
             options={{headerShown: false}}
           />
+
           <Stack.Screen
             name="TeacherbottomTab"
             component={TeacherBottomTabScreen}
@@ -150,21 +155,10 @@ class App extends Component {
           />
 
           <Stack.Screen
-            name="Coursecatogry"
-            component={Coursecategory}
+            name="StudentAppStack"
+            component={StudentAppStack}
             options={{headerShown: false}}
           />
-          <Stack.Screen
-            name="CourseList"
-            component={CourseList}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Chapter"
-            component={Chapter1}
-            options={{headerShown: false}}
-          />
-
           {/* Import Teacher screen  */}
           <Stack.Screen
             name="TeacherLogin"
@@ -197,10 +191,16 @@ class App extends Component {
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="StudentHome"
-            component={Home}
+            name="ClassList"
+            component={ClassList}
             options={{headerShown: false}}
           />
+          <Stack.Screen
+            name="CourseDescription"
+            component={CourseDescription}
+            options={{headerShown: false}}
+          />
+
           <Stack.Screen
             name="coursecategory"
             component={CourseCategory}

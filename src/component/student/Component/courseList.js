@@ -1,5 +1,5 @@
 import max from 'date-fns/esm/max/index';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,79 +7,53 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  FlatList,
   ScrollView,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import imageFile from '../../../assets';
 
-const CourseList = ({navigation}) => {
+import ApiHelper from '../Utills/Apihelper';
+import ContentCard from './ContentCard';
+
+const CourseList = ({navigation, route}) => {
+  const [subjectList, setSubjectList] = useState([]);
+  useEffect(() => {
+    // console.log(route.params.id);
+    let data = {
+      category_id: route.params.id,
+    };
+    ApiHelper.fetchById('/student_get_course', JSON.stringify(data)).then(
+      (res) => {
+        if (res.response.status) {
+          console.log(res.data);
+          setSubjectList(res.data);
+        }
+      },
+    );
+  }, []);
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.logoContainer}>
-          <View style={styles.logoBox}>
-            <Image
-              style={styles.logoimg}
-              source={require('../../../assets/gyanbooster.png')}
-              resizeMode="contain"
+      <View style={styles.logoContainer}>
+        <View style={styles.logoBox}>
+          <Image
+            style={styles.logoimg}
+            source={require('../../../assets/gyanbooster.png')}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
+      <FlatList
+        data={subjectList}
+        renderItem={(item, index) => {
+          return (
+            <ContentCard
+              title={item.item.course_name}
+              price={item.item.course_amt}
+              onPress={() => {
+                navigation.navigate('CourseDescription');
+              }}
             />
-          </View>
-        </View>
-        <View style={styles.course}>
-          <TouchableOpacity
-            style={styles.innerContainer}
-            onPress={() => {
-              navigation.navigate('Chapter1');
-            }}>
-            <View style={styles.lefticonContainer}>
-              <Image
-                style={styles.icon}
-                source={require('../../../assets/bio.png')}
-                resizeMode="contain"
-              />
-            </View>
-            <View>
-              <Text style={styles.classText}> Physics</Text>
-              <Text style={styles.classText1}> price ₹ 150</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.course1}>
-          <TouchableOpacity style={styles.innerContainer}>
-            <View style={styles.lefticonContainer}>
-              <Image
-                style={styles.icon}
-                source={require('../../../assets/bio.png')}
-                resizeMode="contain"
-              />
-            </View>
-            <View>
-              <Text style={styles.classText}> Chamestry</Text>
-              <Text style={styles.classText1}> price ₹ 150</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.course1}>
-          <TouchableOpacity style={styles.innerContainer}>
-            <View style={styles.lefticonContainer}>
-              <Image
-                style={styles.icon}
-                source={require('../../../assets/bio.png')}
-                resizeMode="contain"
-              />
-            </View>
-            <View>
-              <Text style={styles.classText}>Biology</Text>
-              <Text style={styles.classText1}> price ₹ 150</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-
-      <Image
-        style={{height: 100, width: '100%'}}
-        source={imageFile.bottomLog}
-        resizeMode={'contain'}
+          );
+        }}
       />
     </View>
   );

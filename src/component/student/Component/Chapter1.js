@@ -1,7 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-
-const Chapter1 = () => {
+import ApiHelper from '../Utills/Apihelper';
+const ChapterList = ({navigation, route}) => {
+  // const [subjectList, setSubjectList] = useState([]);
+  // useEffect(() => {
+  //   // console.log(route.params.id);
+  //   let data = {
+  //     category_id: route.params.id,
+  //   };
+  //   ApiHelper.fetchById('/student_get_course', JSON.stringify(data)).then(
+  //     (res) => {
+  //       if (res.response.status) {
+  //         console.log(res.data);
+  //         setSubjectList(res.data);
+  //       }
+  //     },
+  //   );
+  // }, []);
   return (
     <View style={styles.Container}>
       <View style={{flex: 1}}>
@@ -27,12 +42,19 @@ const Chapter1 = () => {
           height: 60,
           width: '100%',
           backgroundColor: 'red',
-        }}></View>
+        }}>
+        <TouchableOpacity
+          onPress={() => {
+            alert('heme');
+          }}>
+          <Text style={{fontSize: 15, color: 'white'}}>Home</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-export default Chapter1;
+export default ChapterList;
 
 const styles = StyleSheet.create({
   Container: {

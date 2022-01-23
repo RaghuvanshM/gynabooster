@@ -1,17 +1,43 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  View,
+  Image,
+} from 'react-native';
+
+import ClassCard from '../Component/ClassCard';
+import Loader from '../Component/Loader';
 import ApiHelper from '../Utills/Apihelper';
 
 const Coursecategory = ({navigation, route}) => {
+  const [category, setCategory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [noData, setNodata] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     console.log(route.params.class_id);
-    ApiHelper.fetchById(
-      '/get_class_categorey_byID',
-      route.params.class_id,
-    ).then((res) => {
-      console.log(res);
-    });
+    let data = {
+      class_id: route.params.class_id,
+    };
+    ApiHelper.fetchById('/get_class_categorey_byID', JSON.stringify(data)).then(
+      (res) => {
+        if (res.response) {
+          setCategory(res.data);
+          if (res.data.length > 0) {
+            setNodata(false);
+          } else {
+            setNodata(true);
+          }
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      },
+    );
   }, []);
   return (
     <View style={styles.Container}>
@@ -24,25 +50,28 @@ const Coursecategory = ({navigation, route}) => {
         </View>
         <Text style={styles.title}> List of category</Text>
       </View>
-      <View>
-        <TouchableOpacity
-          style={styles.classContainer}
-          onPress={() => {
-            navigation.navigate('Chapter1');
-          }}>
-          <Text style={styles.classText}>Science</Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity style={styles.classContainer}>
-          <Text style={styles.classText}>Commerce</Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity style={styles.classContainer}>
-          <Text style={styles.classText}>Arts</Text>
-        </TouchableOpacity>
-      </View>
+      {!noData && (
+        <FlatList
+          data={category}
+          renderItem={(item, index) => {
+            return (
+              <ClassCard
+                onPressClass={() => {
+                  navigation.navigate('CourseList', {id: item.item.id});
+                  //   alert(JSON.stringify(item.item));
+                }}
+                name={item.item.name}
+              />
+            );
+          }}
+        />
+      )}
+      <Loader loading={loading} />
+      {noData && (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 18}}>No data </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -51,6 +80,7 @@ export default Coursecategory;
 
 const styles = StyleSheet.create({
   Container: {
+    flex: 1,
     backgroundColor: 'white',
   },
   box: {

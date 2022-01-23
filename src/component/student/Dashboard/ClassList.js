@@ -13,7 +13,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ClassCard from '../Component/ClassCard';
 import ApiHelper from '../Utills/Apihelper';
 
-const Home = ({navigation}) => {
+const ClassList = ({navigation}) => {
   const [classes, setClasses] = useState([]);
   useEffect(() => {
     ApiHelper.fetchGet('/view_classs').then((res) => {
@@ -43,9 +43,11 @@ const Home = ({navigation}) => {
       </View>
       <FlatList
         data={classes}
+        contentContainerStyle={{marginBottom: 30}}
         renderItem={(item, index) => {
           return (
             <ClassCard
+              isleftIcon={true}
               onPressClass={() =>
                 navigation.navigate('Coursecatogry', {class_id: item.item.id})
               }
@@ -58,11 +60,11 @@ const Home = ({navigation}) => {
     </View>
   );
 };
-export default Home;
+export default ClassList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4f469a',
+
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
   },

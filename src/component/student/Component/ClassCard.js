@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
-const ClassCard = ({item, name, navigation, onPressClass}) => {
+const ClassCard = ({item, name, isleftIcon, navigation, onPressClass}) => {
   return (
     <View>
       <TouchableOpacity
@@ -8,12 +8,14 @@ const ClassCard = ({item, name, navigation, onPressClass}) => {
         onPress={() => {
           onPressClass();
         }}>
-        <View style={styles.lefticonContainer}>
-          <Image
-            source={require('../../../assets/class-icon.png')}
-            style={styles.icon}
-          />
-        </View>
+        {isleftIcon && (
+          <View style={styles.lefticonContainer}>
+            <Image
+              source={require('../../../assets/class-icon.png')}
+              style={styles.icon}
+            />
+          </View>
+        )}
         <Text style={styles.classText}>{name}</Text>
       </TouchableOpacity>
     </View>

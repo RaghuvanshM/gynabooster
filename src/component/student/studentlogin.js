@@ -55,7 +55,7 @@ class StudentLogin extends Component {
       .then((res) => res.json())
       .then((res2) => {
         console.log(res2);
-        this.props.navigation.navigate('StudentHome');
+        this.props.navigation.replace('StudentAppStack');
         if (res2.response.status === 'true') {
           let {id} = res2.data;
           AsyncStorage.setItem('Loginid', id);
@@ -68,7 +68,8 @@ class StudentLogin extends Component {
             message: res2.response.message,
             type: 'success',
           });
-          this.props.navigation.navigate('StudentHome');
+          this.props.navigation.replace('StudentAppStack');
+          //  this.props.navigation.replace('StudentAppStack');
         } else {
           this.setState({isApihit: false});
           showMessage({
