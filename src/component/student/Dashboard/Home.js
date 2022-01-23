@@ -46,6 +46,7 @@ const Home = ({navigation}) => {
         <Image  
         source={require('../../../assets/class-icon.png')}
         style={styles.icon}
+        resizeMode="contain"
         />
         </View>
         <Text style={styles.classText}>Class XII</Text>
@@ -126,10 +127,10 @@ const styles = StyleSheet.create({
   },
   icon:{
      flex:1,
-     width: 20,
-     height: 20,
+     width: 30,
+     height: 30,
      borderRadius:20,
-     alignSelf:'center',
+    alignSelf:'center',
      justifyContent:'center',
    
     

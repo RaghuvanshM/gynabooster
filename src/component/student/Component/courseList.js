@@ -1,14 +1,18 @@
 import max from 'date-fns/esm/max/index'
 import React from 'react'
-import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,Image,TouchableOpacity,ScrollView,ImageBackground } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const courseList = ({navigation}) => {
     return (
         <View style={styles.container}>
+            <ScrollView>
             <View style={styles.logoContainer}>
                 
-           
+            <View style={styles.arrowContainer}>
+                <AntDesign name='arrowleft' size={30} color={'white'} />
+            </View>
                 <View style={styles.logoBox}>
                     <Image style={styles.logoimg} source={require('../../../assets/gyanbooster.png')}
                     resizeMode= "contain" />
@@ -59,6 +63,11 @@ const courseList = ({navigation}) => {
                 </View>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
+            <View style={styles.bottom}>
+                <FontAwesome 
+                name='home' size={50} color={'white'} />
+            </View>
         </View>
     )
 }
@@ -96,7 +105,7 @@ const styles = StyleSheet.create({
      height:100,
      width:'100%',
      backgroundColor:'#fe6d1e',
-     marginTop: 50
+     marginTop: 30
      
  },
  innerContainer:{
@@ -135,7 +144,7 @@ const styles = StyleSheet.create({
     height:100,
     width:'100%',
     backgroundColor:'#fe6d1e',
-    marginTop: 20
+    marginTop: 8
  },
  arrowContainer:{
     height: 40,
@@ -153,6 +162,26 @@ const styles = StyleSheet.create({
      color:'#000000',
 
 
- }
+ },
+ bottom:{
+     height:80,
+     width:'100%',
+     backgroundColor:'#52459f',
+     borderTopRightRadius:30,
+     borderTopLeftRadius:30
+ },
+ arrowContainer:{
+    height:35,
+    width:35,
+    backgroundColor:'#52459f',
+    borderWidth:.5,
+    borderRadius:10,
+    marginRight:270,
+    alignItems:'center',
+    justifyContent:'center'
+}
+ 
+ 
+
 
 })

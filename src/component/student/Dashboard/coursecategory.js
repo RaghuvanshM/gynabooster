@@ -1,11 +1,16 @@
 import React from 'react'
 import { StyleSheet, Text, View,Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const Coursecategory = ({navigation}) => {
     return (
         <View style={styles.Container} >
+            
             <View style={styles.box}>
+            <View style={styles.arrowContainer}>
+                <AntDesign name='arrowleft' size={30} color={'white'} />
+            </View>
                 <View style={styles.logoContainer}>
                     <Image  style={styles.logoimg}
                     source={require('../../../assets/gyanbooster.png')}
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#52459f',
         alignItems:'center',
         justifyContent:'center',
-        alignSelf:'center'
+        alignSelf:'center',
         
     },
     logoContainer: {
@@ -88,6 +93,16 @@ const styles = StyleSheet.create({
           marginTop:40,
           color:'#ffffff',
           fontSize:20
+      },
+      arrowContainer:{
+          height:35,
+          width:35,
+          backgroundColor:'#52459f',
+          borderWidth:.5,
+          borderRadius:10,
+          marginRight:270,
+          alignItems:'center',
+          justifyContent:'center'
       }
 
 })
