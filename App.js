@@ -52,6 +52,7 @@ import StudentBottomTab from './src/component/navigation/BottomTabStudent/Studen
 import HomeScreen from './src/component/student/Dashboard/HomeScreen';
 import CourseDescription from './src/component/student/Dashboard/CourseDescription';
 import StudentAppStack from './src/component/navigation/StudentAppStack';
+import PurchasedCourse from './src/component/student/Dashboard/PurchasedCourse';
 class App extends Component {
   render() {
     return (
@@ -85,6 +86,11 @@ class App extends Component {
           <Stack.Screen
             name="StudentSignUp"
             component={StudentSignUpComponent}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="PurchasedCourse"
+            component={PurchasedCourse}
             options={{headerShown: false}}
           />
           <Stack.Screen

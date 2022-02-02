@@ -5,18 +5,15 @@ import HomeScreen from '../../student/Dashboard/HomeScreen';
 import Account from '../../student/Dashboard/Account';
 import CourseList from '../../student/Component/courseList';
 import ClassList from '../../student/Dashboard/ClassList';
-import {View} from 'react-native-animatable';
+import {View, Text} from 'react-native';
+import HomeIcon from 'react-native-vector-icons/Entypo';
+import UserIcon from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();
 
 function StudentBottomTab() {
   return (
     <Tab.Navigator
-      // screenOptions={{
-      //   tabBarShowLabel: false,
-      //   headerShown: false,
-      //   tabBarStyle: {backgroundColor: 'blue'},
-      // }}
       screenOptions={{ShowLabel: false, headerShown: false}}
       tabBarOptions={{
         showLabel: false,
@@ -31,11 +28,27 @@ function StudentBottomTab() {
         component={ClassList}
         options={{
           tabBarIcon: ({focused}) => {
-            return <View></View>;
+            return (
+              <View>
+                <HomeIcon name="home" size={25} color={'white'} />
+              </View>
+            );
           },
         }}
       />
-      <Tab.Screen name="Setting" component={Account} />
+      <Tab.Screen
+        name="Setting"
+        component={Account}
+        options={{
+          tabBarIcon: ({focused}) => {
+            return (
+              <View>
+                <UserIcon name="user" size={25} color={'white'} />
+              </View>
+            );
+          },
+        }}
+      />
     </Tab.Navigator>
   );
 }
