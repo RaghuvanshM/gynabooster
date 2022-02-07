@@ -49,7 +49,8 @@ const CourseList = ({navigation, route}) => {
               title={item.item.course_name}
               price={item.item.course_amt}
               onPress={() => {
-                navigation.navigate('CourseDescription');
+                 navigation.navigate('CourseDescription');
+                
               }}
             />
           );

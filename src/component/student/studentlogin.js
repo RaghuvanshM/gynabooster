@@ -36,6 +36,7 @@ class StudentLogin extends Component {
   }
   StudentLogin = () => {
     this.setState({isApihit: true});
+    this.props.navigation.replace('StudentAppStack');
     let {email, password} = this.state;
     const url =
       'https://gyanbooster.jingleinfo.com/mobileapp/user/student_login';

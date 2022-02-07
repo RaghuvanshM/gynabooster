@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 30,
     borderRadius: 25,
-    justifyContent: 'center',
+    
     alignItems: 'center',
   },
   logoimg: {
